@@ -4,12 +4,11 @@ const app = express()
 const config = require('./config')
 const models = require('./models')()
 
+app.set('sequelize', models)
 app.use(require('./routes'))
 
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function(req, res) {
+  res.sendStatus(404)
 });
 
 app.listen(config.apiPort, () => {

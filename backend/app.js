@@ -4,6 +4,8 @@ const app = express()
 const config = require('./config')
 const models = require('./models')()
 
+app.use(express.json())
+
 app.set('sequelize', models)
 app.use(require('./routes'))
 

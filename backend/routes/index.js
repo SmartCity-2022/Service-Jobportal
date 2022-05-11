@@ -1,5 +1,6 @@
 var router = require('express').Router()
+var config = require('../config')
 
-router.use('/api', require('./api'))
+router.use(config.apiPath, require('./api'))
 
 module.exports = router

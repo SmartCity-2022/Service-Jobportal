@@ -35,6 +35,5 @@ module.exports = (sequelize) => {
       },
     }
   )
-
   return Job
 }

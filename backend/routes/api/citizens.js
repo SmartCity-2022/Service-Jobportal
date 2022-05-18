@@ -1,7 +1,18 @@
-var router = require('express').Router()
-var auth = require('../auth')
+const router = require('express').Router()
 
-router.get('/:email', auth.required, async (req, res) => {
+router.get('/:id/applications', async(req, res, next) => {
+  try {
+    let applications = req.app.get('sequelize').models.Application.findAll({
+      where: { CitizenId: req.params.id}
+    })
+    res.json(applications)
+  }
+  catch(error) {
+    return next(error)
+  }
+})
+
+router.get('/:email', async (req, res, next) => {
   try {
     let citizen = await req.app.get('sequelize').models.Citizen.findOne({
       where: {
@@ -9,46 +20,44 @@ router.get('/:email', auth.required, async (req, res) => {
       }
     })
     if(!citizen)
-      return res.sendStatus(404)
+      res.sendStatus(404)
     else
       res.json(citizen).status(200)
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     let citizen = await req.app.get('sequelize').models.Citizen.create(req.body)
     res.json(citizen).status(201)
   } 
   catch(error) {
-    res.sendStatus(401) 
+    next(error)
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
     let citizen = await req.app.get('sequelize').models.Citizen.findByPk(req.params.id)
     citizen = await citizen.update({email: req.body.email}, {where: {email: req.body.email}})
     return res.json(citizen).status(200)
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
-    let citizen = await req.app.get('sequelize').models.Citizen.destroy({where: {email: req.params.id}})
+    await req.app.get('sequelize').models.Citizen.destroy({where: {email: req.params.id}})
     res.sendStatus(200)
-    
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 })
-
 
 module.exports = router

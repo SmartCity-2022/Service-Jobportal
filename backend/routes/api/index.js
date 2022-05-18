@@ -1,17 +1,28 @@
 const router = require('express').Router()
-const Sequelize = require('sequelize')
+const config = require('../../config')
 
-const assertComp = async(req, res, next) => {
-  const company = await req.app.get('sequelize').models.Company.findOne({where: {id: req.params.companyId}})
-  if(!company)
-    return res.send("company does not exist").status(404)
-  else
-    return next()
-}
+router.get('/', (req, res) => {
+  res.sendStatus(200)
+})
 
 router.use('/citizens', require('./citizens'))
-router.use('/companies', require('./company'))
-router.use('/companies/:companyId/jobs', assertComp, require('./jobs'))
-router.use('/companies/:companyId/jobs/:jobId/applications', assertComp, require('./applications'))
+router.use('/jobs', require('./jobs'))
+router.use('/jobs/:jobId/applications', require('./applications'))
+router.use('/companies', require('./companies'))
+
+router.use(async (err, req, res, next) => {
+  if(!err) 
+    return next()
+  
+  if(config.environment == 'development') {
+    res.send(err)
+  }
+  else {
+    res.status(401).json({
+      error: "Unauthorized",
+      path: req.path
+    })
+  }
+}) 
 
 module.exports = router

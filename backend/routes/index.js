@@ -1,6 +1,6 @@
-var router = require('express').Router()
-var config = require('../config')
+const config = require('../config')
+const router = require('express').Router()
 
-router.use(config.apiPath, require('./api'))
+router.use(config.api_path, require('./api'))
 
 module.exports = router

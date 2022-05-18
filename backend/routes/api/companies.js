@@ -1,13 +1,12 @@
-var router = require('express').Router()
-var auth = require('../auth')
+const router = require('express').Router()
 
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function(req, res, next) {
   try {
     let company = await req.app.get('sequelize').models.Company.findByPk(req.params.id)
     res.json(company).status(200)
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 })
 
@@ -17,7 +16,7 @@ router.post('/', async function(req, res) {
     res.json(company).status(201)
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 })
 
@@ -25,22 +24,21 @@ router.put('/:id', async function(req, res) {
   try {
     let company = await req.app.get('sequelize').models.Company.findByPk(req.params.id)
     company = await company.update(req.body)
-    return res.json(company).status(200)
+    res.json(company).status(200)
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 }) 
 
-router.delete('/:id', async function(req, res) {
+router.delete('/:id', async function(req, res, next) {
   try {
-    let company = await req.app.get('sequelize').models.Company.destroy({where: {id: req.params.id}})
+    await req.app.get('sequelize').models.Company.destroy({where: {id: req.params.id}})
     res.sendStatus(200)
   }
   catch(error) {
-    res.sendStatus(401)
+    next(error)
   }
 })
-
 
 module.exports = router

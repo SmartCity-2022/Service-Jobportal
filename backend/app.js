@@ -9,6 +9,7 @@ const app = express()
 app.set('sequelize', models)
 
 app.use(express.json())
+app.use(cors())
 app.use(require('./routes'))
 
 app.use(function (req, res, next) {
@@ -24,6 +25,10 @@ app.get('sequelize').sync().then(async () => {
   app.listen(config.api_port, () => {
     console.log('Backend listening on: http://localhost:' + config.api_port)
 
-    rabbitmq.receive()
+
+    rabbitmq.publish("service.hello", "")
+    rabbitmq.listen("jobPortal", "service.world", (secret) => {
+      config.secret = secret
+    })
   })
 })

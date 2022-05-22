@@ -41,4 +41,4 @@ async function publish(routingKey, payload) {
   channel.publish(config.rabbitmq_exchange, routingKey, payload)
 }
 
-module.exports = {getConnection, listen}
+module.exports = {getConnection, listen, publish}

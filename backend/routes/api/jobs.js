@@ -7,7 +7,8 @@ const config = require('../../config')
 router.get('/', async (req, res, next) => {
   try {
     let jobs = await req.app.get('sequelize').models.Job.findAll({
-      attributes: ['id', 'name', 'field', 'type', 'worktime']
+      attributes: ['id', 'name', 'field', 'type', 'worktime'],
+      include: {model: req.app.get('sequelize').models.Company, attributes: ['id', 'name']}
     })
     res.json(jobs).status(200)
   }
@@ -28,7 +29,8 @@ router.get('/results', async (req, res, next) => {
       where: {
         name: {[Op.like]: req.query.name + '%'},
         type: {[Op.like]: req.query.type}
-      }
+      },
+      include: {model: req.app.get('sequelize').models.Company, attributes: ['id', 'name']}
     })
     res.json(query).status(200)
   }
@@ -43,7 +45,8 @@ router.get('/types', async (req, res, next) => {
 
 router.get('/:jobId', async (req, res, next) => {
   try {
-    let job = await req.app.get('sequelize').models.Job.findByPk(req.params.jobId)
+    let job = await req.app.get('sequelize').models.Job.findByPk(req.params.jobId, 
+      {include: {model: req.app.get('sequelize').models.Company, attributes: ['id', 'name']}})
 
     if(!job)
       res.status(404)

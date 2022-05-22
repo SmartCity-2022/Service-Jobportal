@@ -33,12 +33,17 @@ async function listen(queueName, routingKey, callback) {
 }
 
 async function publish(routingKey, payload) {
-  const connection = await getConnection()
-  const channel = await connection.createChannel()
-
-  await channel.assertExchange(config.rabbitmq_exchange, "topic", {durable: true})
+  try {
+    const connection = await getConnection()
+    const channel = await connection.createChannel()
   
-  channel.publish(config.rabbitmq_exchange, routingKey, payload)
+    await channel.assertExchange(config.rabbitmq_exchange, "topic", {durable: true})
+    
+    channel.publish(config.rabbitmq_exchange, routingKey, Buffer.from(payload))
+  }
+  catch(error) {
+    console.log(error)
+  }
 }
 
 module.exports = {getConnection, listen, publish}

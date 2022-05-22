@@ -6,23 +6,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Work from '@mui/icons-material/Work';
-import { createTheme } from '@mui/material/styles';
-import red from '@mui/material/colors/red';
 import { ThemeProvider } from '@emotion/react';
+import theme from '../theme'
 
-const pages = ['Stellensuche', 'meine Bewerbungen', 'meine Firmen'];
+const pages = ['Alle Stellen', 'Stellensuche', 'meine Bewerbungen', 'meine Firmen'];
 const links = {
-  'Stellensuche': "stellensuche",
-  'meine Bewerbungen': "bewerbungen",
-  'meine Firmen': "firmen"
+  'Alle Stellen': "/jobs",
+  'Stellensuche': "/stellensuche",
+  'meine Bewerbungen': "/bewerbungen",
+  'meine Firmen': "/firmen"
 };
-
-
-const theme = createTheme({
-  palette: {
-    primary: red
-  }
-});
 
 const Navbar = () => {
   return (

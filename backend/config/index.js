@@ -9,5 +9,5 @@ module.exports = {
   db_url: process.env.DATABASE_URL || '',
 
   rabbitmq_url: process.env.RABBITMQ_URL || '',
-  rabbitmq_exchange: process.env.RABBITMQ_EXCHANGE || 'exchange'
+  rabbitmq_exchange: process.env.RABBITMQ_EXCHANGE || 'exchange',
 }

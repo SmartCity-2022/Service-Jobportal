@@ -22,7 +22,7 @@ async function listen(queueName, routingKey, callback) {
     await channel.bindQueue(queue.queue, config.rabbitmq_exchange, routingKey)
 
     await channel.consume(queue.queue, (message) => {
-      console.log("RabbitMQ: consumed [RoutingKey '" + message.fields.routingKey + "', Content: '" + message.content.toString() + "'")
+      console.log("[RabbitMQ] consumed '" + message.content.toString() + "' from '" + message.fields.routingKey + "'")
       callback(message.content.toString())
       channel.ack(message)
     })
@@ -40,6 +40,7 @@ async function publish(routingKey, payload) {
     await channel.assertExchange(config.rabbitmq_exchange, "topic", {durable: true})
     
     channel.publish(config.rabbitmq_exchange, routingKey, Buffer.from(payload))
+    console.log("[RabbitMQ] published '" + payload + "' at '" + routingKey + "'")
   }
   catch(error) {
     console.log(error)

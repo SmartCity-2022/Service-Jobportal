@@ -1,8 +1,13 @@
 const router = require('express').Router()
 const config = require('../../config')
+const auth = require('../auth')
 
 router.get('/', (req, res) => {
   res.sendStatus(200)
+})
+
+router.get('/auth', auth.required, (req, res, next) => {
+  res.send("Auth passed").status(200)
 })
 
 router.use('/citizens', require('./citizens'))
@@ -14,7 +19,7 @@ router.use(async (err, req, res, next) => {
   if(!err) 
     return next()
   
-  if(config.environment == 'development') {
+  if(config.node_env === 'development') {
     res.send(err)
   }
   else {

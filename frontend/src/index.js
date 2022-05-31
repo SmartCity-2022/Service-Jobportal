@@ -15,8 +15,8 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<App/>}/>
-        <Route path = "/jobs" element = {<Jobs/>}/>
-        <Route path = "/jobs/:id" element = {<Job/>}/>
+        <Route path = "/stellen" element = {<Jobs/>}/>
+        <Route path = "/stellen/:id" element = {<Job/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

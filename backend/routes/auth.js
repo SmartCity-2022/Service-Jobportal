@@ -1,55 +1,62 @@
 const config = require('../config')
 const axios = require('axios')
-const { verify } = require('jsonwebtoken')
+const {verify, TokenExpiredError} = require('jsonwebtoken')
 
-module.exports.required = async (req, res, next) => {
+
+module.exports.required = async(req, res, next) => {
   if(config.node_env === 'development')
     return next()
 
-  const authorization = req.header("Authorization")
-  if(!authorization)
-    return res.status(401).send("Auth Header Missing")
-  
-  const { accessToken, refreshToken } = JSON.parse(authorization)  
-  if(!accessToken || !refreshToken)
-    return res.status(401).send("No Access or Refresh Token")
+  if(!req.cookies)
+    return res.status(401).send("Missing Cookies")
+    
+  const accessToken = req.cookies.accessToken
+  const refreshToken = req.cookies.refreshToken
 
-  const { payload, expired } = parseJwt(accessToken) 
+  if(!accessToken || !refreshToken)
+    return res.status(401).send("Missing Access or Refresh Token")
+  
+  const {payload, expired} = parseJwt(accessToken)
+
   if(payload && !expired) {
+    console.log("jwt successful for user " + payload)
+
     req.user = payload
     return next()
   }
-  else if(expired) {
-    await axios
-      .post(config.mainhub_url + '/api/token', {
-        token: refreshToken,
-      })
-      .then(res => {
-        const accessToken = res.body
-        if(!accessToken)
-          return res.status(401).send("31")
-        
-        const payload = parseJwt(accessToken)
-        if(!payload)
-          return res.status(401).send("34")
 
-        req.user = payload
-        return next()
-      })
+  if(expired) {
+    await axios.post(config.mainhub_url + "/api/token", {
+      token: refreshToken
+    })
+    .then((res) => {
+      const accessToken = res.body
+
+      if(accessToken)
+        res.cookie("accessToken", accessToken, { domain: ".smartcity.w-mi.de" })
+      
+      const payload = parseJwt(accessToken).payload
+      if(!payload)
+        return res.status(401).send("Token could not be refreshed")
+
+      req.user = payload
+      return next()
+    })
+    .catch((error) => {console.log("Refreshing failed:" + error)}) 
   }
-  return next();
+
+  return res.status(401).send("Authentication failed")
 }
 
-module.exports.none = async (req, res, next) => {
-  return next() // pass
-}
-
-function parseJwt(jwt) {
+function parseJwt(accessToken) {
   try {
     const payload = verify(jwt, config.secret)
       return { payload : payload, expired: false}
   }
   catch(error) {
-    return { payload: null, expired: true}
+    if(error instanceof TokenExpiredError)
+      return {payload: null, expired: true}
+    else
+      console.log(error)
   }
 }

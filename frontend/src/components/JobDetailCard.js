@@ -12,7 +12,7 @@ import '../App.css'
 export default function ImgMediaCard(props) {
   return (
     <ThemeProvider theme={theme}>
-    <Card sx={{maxWidth: "90", margin: 5}}>
+    <Card elevation={0} sx={{maxWidth: "90", padding: 5, margin: 0}}>
     
       <CardContent>
         <Typography variant="h5" component="div">
@@ -40,14 +40,13 @@ export default function ImgMediaCard(props) {
           </tbody>
         </table>
 
-
       </CardContent>
       <CardActions>
         <Button size="small" variant="contained">Jetzt bewerben</Button>
       </CardActions>
     </Card>
 
-    <Card sx={{maxWidth: "90", margin: 5}}>
+    <Card elevation={0} sx={{maxWidth: "90", padding: 5}}>
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
             Beschreibung
@@ -58,7 +57,7 @@ export default function ImgMediaCard(props) {
       </CardContent>
     </Card>
 
-    <Card sx={{maxWidth: "90", margin: 5}}>
+    <Card elevation={0} sx={{maxWidth: "90", padding: 5}}>
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
             Anforderungen an den Bewerber

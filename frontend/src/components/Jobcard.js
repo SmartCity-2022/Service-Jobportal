@@ -14,8 +14,8 @@ import theme from '../theme'
 export default function Jobcard(props) {
   return (
     <ThemeProvider theme={theme}>
-    <TableContainer sx = {{padding: 5}} component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="large" aria-label="a dense table">
+    <TableContainer elevation={0} sx = {{padding: 5}} component={Paper}>
+      <Table sx={{ minWidth: 650 }} size="large">
         <TableHead>
           <TableRow size="20">
             <TableCell>Berufsbezeichnung</TableCell>

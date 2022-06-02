@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const config = require('../../config')
+const types = require('./types')
 const auth = require('../auth')
 
 router.get('/', (req, res) => {
@@ -7,7 +8,11 @@ router.get('/', (req, res) => {
 })
 
 router.get('/auth', auth.required, (req, res, next) => {
-  res.send("Auth passed").status(200)
+  res.send("Auth passed for user" + req.user).status(200)
+})
+
+router.get('/types', async (req, res, next) => {
+  res.json(types).status(200)
 })
 
 router.use('/citizens', require('./citizens'))

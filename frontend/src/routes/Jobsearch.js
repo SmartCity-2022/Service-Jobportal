@@ -9,7 +9,7 @@ const Jobsearch = () => {
 
   const [state, setState] = useState({
     types: [],
-    results: [],
+
     jobTitle: "",
     jobType: "",
     jobField: "",
@@ -26,9 +26,6 @@ const Jobsearch = () => {
         })
       })
   }
-  // eslint-disable-next-line
-  useEffect(() => {getTypes()}, [])
-
   const search = async() => {
     let jobTitle = state.jobTitle === "" ? "%" : state.jobTitle
     let jobField = state.jobField === "" ? "%" : state.jobField
@@ -37,6 +34,7 @@ const Jobsearch = () => {
 
     const searchUrl = "/jobs/results?name=" + jobTitle + "&type=" + jobType + "&field=" + jobField +"&worktime=" + worktime
 
+    console.log(state)
     await axios.get(process.env.REACT_APP_API_URL + searchUrl, [])
       .then(response => {
         setState({
@@ -45,7 +43,8 @@ const Jobsearch = () => {
         })
       })
   }
-  useEffect(() => {search()}, [])
+  // eslint-disable-next-line
+  useEffect(() => {search(), getTypes()}, [])
 
   const handleChange = (event) => {
     const name = event.target.name
@@ -76,7 +75,7 @@ const Jobsearch = () => {
                   <MenuItem key={type} value={type}>{type}</MenuItem>
               ))}
             </TextField>
-              <br/>
+
             <TextField select
               size="small"
               value={state.jobField}
@@ -85,7 +84,7 @@ const Jobsearch = () => {
               name="jobField"
               InputProps={{ style: { fontSize: 14 } }}
 
-              sx={{width: "100%"}}
+              sx={{width: "100%", marginTop: 3}}
             >
               <MenuItem key={0} value={""}>-</MenuItem>
               {Array.isArray(state.types.jobField) && state.types.jobField.map(field => (
@@ -102,8 +101,8 @@ const Jobsearch = () => {
             value={state.jobTitle}
             onChange={handleChange}
             sx={{width: "95%"}}/>
-            <br></br>
-          <Button variant="contained" onClick={search}>Jetzt Suchen</Button>
+
+          <Button variant="contained" onClick={search} sx={{marginTop: 1}}>Jetzt Suchen</Button>
         </Grid>
         <Grid item container alignItems="center" justifyContent="center" maxWidth="25%" display="flex" flexDirection="column">
             <TextField select
@@ -121,7 +120,6 @@ const Jobsearch = () => {
                   <MenuItem key={type} value={type}>{type}</MenuItem>
               ))}
             </TextField>
-              <br/>
             <TextField select
               size="small"
               value={state.availableAt}
@@ -130,7 +128,7 @@ const Jobsearch = () => {
               name="availableAt"
               InputProps={{ style: { fontSize: 14 } }}
 
-              sx={{width: "100%"}}
+              sx={{width: "100%", marginTop: 3}}
             >
               <MenuItem key={0} value={"sofort"}>sofort</MenuItem>
             </TextField>

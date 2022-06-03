@@ -11,7 +11,7 @@ router.get('/auth', auth.required, (req, res, next) => {
   res.json("Auth passed for user " + req.user.email).status(200)
 })
 
-router.get('/types', async (req, res, next) => {
+router.get('/types', async(req, res) => {
   res.json(types).status(200)
 })
 

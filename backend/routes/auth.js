@@ -3,7 +3,6 @@ const axios = require('axios')
 const {verify, TokenExpiredError} = require('jsonwebtoken')
 
 module.exports.required = async(req, res, next) => {
-  console.log(process.env.SECRET)
   if(config.node_env === 'development')
     return next()
 

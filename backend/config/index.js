@@ -1,7 +1,7 @@
 require('dotenv').config({path: __dirname + '/../.env'})
 
 module.exports = {
-  node_env: process.env.NODE_ENV || 'development',
+  node_env: process.env.NODE_ENV || 'production',
 
   api_path: process.env.API_PATH || '/api',
   api_port: process.env.API_PORT || 3000,

@@ -2,7 +2,6 @@ const config = require('../config')
 const axios = require('axios')
 const {verify, TokenExpiredError} = require('jsonwebtoken')
 
-
 module.exports.required = async(req, res, next) => {
   if(config.node_env === 'development')
     return next()
@@ -35,7 +34,7 @@ module.exports.required = async(req, res, next) => {
       if(accessToken)
         res.cookie("accessToken", accessToken, { domain: ".smartcity.w-mi.de" })
       
-      const payload = parseJwt(accessToken).payload
+      const {payload, expired} = parseJwt(accessToken)
       if(!payload)
         return res.status(401).send("Token could not be refreshed")
 
@@ -50,13 +49,15 @@ module.exports.required = async(req, res, next) => {
 
 function parseJwt(accessToken) {
   try {
-    const payload = verify(jwt, config.secret)
+    const payload = verify(accessToken, config.secret)
       return { payload : payload, expired: false}
   }
   catch(error) {
     if(error instanceof TokenExpiredError)
       return {payload: null, expired: true}
-    else
+    else {
       console.log(error)
+      return {payload: null, expired: false}
+    }
   }
 }

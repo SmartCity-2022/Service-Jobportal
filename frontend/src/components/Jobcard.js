@@ -19,8 +19,8 @@ export default function Jobcard(props) {
         <TableHead>
           <TableRow size="20">
             <TableCell>Berufsbezeichnung</TableCell>
-            <TableCell align="right">Fachrichtung</TableCell>
             <TableCell align="right">Typ</TableCell>
+            <TableCell align="right">Fachrichtung</TableCell>
             <TableCell align="right">Arbeitszeit</TableCell>
             <TableCell align="right">Firma</TableCell>
             <TableCell align="right"> </TableCell>
@@ -31,12 +31,12 @@ export default function Jobcard(props) {
             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 
               <TableCell> {row.name} </TableCell>
-              <TableCell align="right"> {row.field} </TableCell>
               <TableCell align="right"> {row.type} </TableCell>
+              <TableCell align="right"> {row.field} </TableCell>
               <TableCell align="right"> {row.worktime} </TableCell>
               <TableCell align="right"> {row.Company.name} </TableCell>
-              <TableCell align="right"> <Button size="small" href={"jobs/"+row.id} variant="contained">Details</Button></TableCell>
-
+              <TableCell align="right"> <Button size="small" href={"stellen/" + row.id} variant="contained">Details</Button></TableCell>
+              
             </TableRow>
           ))}
         </TableBody>

@@ -22,13 +22,19 @@ router.get('/results', async (req, res, next) => {
     req.query.name = ''
   if(typeof req.query.type === 'undefined')
     req.query.type = '%'
+  if(typeof req.query.field === 'undefined')
+    req.query.field = '%'
+  if(typeof req.query.worktime === 'undefined')
+    req.query.worktime = '%'
 
   try {
     let query = await req.app.get('sequelize').models.Job.findAll({
       attributes: ['id', 'name', 'field', 'type', 'worktime'],
       where: {
         name: {[Op.like]: req.query.name + '%'},
-        type: {[Op.like]: req.query.type}
+        type: {[Op.like]: req.query.type},
+        field: {[Op.like]: req.query.field},
+        worktime: {[Op.like]: req.query.worktime},
       },
       include: {model: req.app.get('sequelize').models.Company, attributes: ['id', 'name']}
     })

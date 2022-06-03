@@ -39,11 +39,10 @@ export default function ImgMediaCard(props) {
             </tr>
           </tbody>
         </table>
-
       </CardContent>
-      <CardActions>
-        <Button size="small" variant="contained">Jetzt bewerben</Button>
-      </CardActions>
+      <CardContent>
+        <Button size="large" variant="contained">Bewerbung schreiben</Button>
+      </CardContent>
     </Card>
 
     <Card elevation={0} sx={{maxWidth: "90", padding: 5}}>

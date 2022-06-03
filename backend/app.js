@@ -6,7 +6,6 @@ const config = require('./config')
 const models = require('./models')
 const rabbitmq = require('./rabbitmq')
 
-
 const app = express()
 app.set('sequelize', models)
 
@@ -16,7 +15,7 @@ app.use(cookieParser())
 
 app.use(require('./routes'))
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
   return res.status(404).json({
     error: "Not Found",
     path: req.path
@@ -29,9 +28,9 @@ app.get('sequelize').sync().then(async () => {
   app.listen(config.api_port, async() => {
     console.log('Backend listening on: http://localhost:' + config.api_port)
     
-    await rabbitmq.listen("jobPortal", "service.world", (secret) => {
-      config.secret = secret
+    await rabbitmq.listen("jobportal", "service.world", (secret) => {
+      process.env.SECRET = secret
     })
-    await rabbitmq.publish("service.hello", "")
+    await rabbitmq.publish("service.hello", "jobportal")
   })
 })

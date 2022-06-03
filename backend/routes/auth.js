@@ -49,7 +49,7 @@ module.exports.required = async(req, res, next) => {
 
 function parseJwt(accessToken) {
   try {
-    const payload = verify(accessToken, config.secret)
+    const payload = verify(accessToken, process.env.SECRET)
       return { payload : payload, expired: false, error: null}
   }
   catch(error) {

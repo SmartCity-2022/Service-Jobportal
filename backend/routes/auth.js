@@ -3,6 +3,7 @@ const axios = require('axios')
 const {verify, TokenExpiredError} = require('jsonwebtoken')
 
 module.exports.required = async(req, res, next) => {
+  console.log(process.env.SECRET)
   if(config.node_env === 'development')
     return next()
 
@@ -49,7 +50,7 @@ module.exports.required = async(req, res, next) => {
 
 function parseJwt(accessToken) {
   try {
-    const payload = verify(accessToken, config.secret)
+    const payload = verify(accessToken, process.env.SECRET)
       return { payload : payload, expired: false, error: null}
   }
   catch(error) {

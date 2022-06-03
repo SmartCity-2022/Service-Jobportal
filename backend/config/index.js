@@ -12,5 +12,4 @@ module.exports = {
   rabbitmq_exchange: process.env.RABBITMQ_EXCHANGE || 'exchange',
 
   mainhub_url: process.env.MAINHUB_URL,
-  secret: ''
 }

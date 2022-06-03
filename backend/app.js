@@ -29,9 +29,9 @@ app.get('sequelize').sync().then(async () => {
   app.listen(config.api_port, async() => {
     console.log('Backend listening on: http://localhost:' + config.api_port)
     
-    await rabbitmq.publish("service.hello", "")
     await rabbitmq.listen("jobPortal", "service.world", (secret) => {
       config.secret = secret
     })
+    await rabbitmq.publish("service.hello", "")
   })
 })

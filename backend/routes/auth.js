@@ -15,7 +15,7 @@ module.exports.required = async(req, res, next) => {
   if(!accessToken || !refreshToken)
     return res.status(401).send("Missing Access or Refresh Token")
   
-  const {payload, expired} = parseJwt(accessToken)
+  const {payload, expired, error} = parseJwt(accessToken)
 
   if(payload && !expired) {
     console.log("jwt successful for user " + payload)
@@ -44,20 +44,19 @@ module.exports.required = async(req, res, next) => {
     .catch((error) => {console.log("Refreshing failed:" + error)}) 
   }
 
-  return res.status(401).send("Authentication failed")
+  return res.status(401).json(error)
 }
 
 function parseJwt(accessToken) {
   try {
     const payload = verify(accessToken, config.secret)
-      return { payload : payload, expired: false}
+      return { payload : payload, expired: false, error: null}
   }
   catch(error) {
     if(error instanceof TokenExpiredError)
-      return {payload: null, expired: true}
+      return {payload: null, expired: true, error: error}
     else {
-      console.log(error)
-      return {payload: null, expired: false}
+      return {payload: null, expired: false, error: error}
     }
   }
 }

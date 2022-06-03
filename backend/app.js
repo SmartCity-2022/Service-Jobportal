@@ -26,11 +26,11 @@ app.use(function (req, res, next) {
 app.get('sequelize').sync().then(async () => {
   console.log("Database " + config.db_url + " connected")
 
-  app.listen(config.api_port, () => {
+  app.listen(config.api_port, async() => {
     console.log('Backend listening on: http://localhost:' + config.api_port)
     
-    rabbitmq.publish("service.hello", "")
-    rabbitmq.listen("jobPortal", "service.world", (secret) => {
+    await rabbitmq.publish("service.hello", "")
+    await rabbitmq.listen("jobPortal", "service.world", (secret) => {
       config.secret = secret
     })
   })

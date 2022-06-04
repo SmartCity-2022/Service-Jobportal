@@ -1,43 +1,55 @@
 const router = require('express').Router()
+const auth = require('../auth')
 
-router.get('/:id', async function(req, res, next) {
+router.get("/:id", auth.none, async(req, res, next) => {
   try {
-    let company = await req.app.get('sequelize').models.Company.findByPk(req.params.id)
-    res.json(company).status(200)
+    let company = await req.app.get("sequelize").models.Company.findByPk(req.body.id)
+    return res.status(200).json(company)
   }
-  catch(error) {
-    next(error)
+  catch(err) {
+    next(err)
   }
 })
 
-router.post('/', async function(req, res) {
+router.post("/", auth.required, async(req, res, next) => {
   try {
-    let company = await req.app.get('sequelize').models.Company.create(req.body)
-    res.json(company).status(201)
+    req.body.CitizenId = req.citizen.id
+    let company = await req.app.get("sequelize").models.Company.create(req.body)
+    
+    return res.status(201).json(company)
   }
-  catch(error) {
-    next(error)
+  catch(err) {
+    next(err)
   }
 })
 
-router.put('/:id', async function(req, res) {
+router.put("/", auth.required, async(req, res, next) => {
   try {
-    let company = await req.app.get('sequelize').models.Company.findByPk(req.params.id)
+    let company = await req.app.get("sequelize").models.Company.findOne({where: {
+      id: req.body.id,
+      CitizenId: req.citizen.id
+    }})
+    req.body.id = req.body.id
+    req.body.CitizenId = req.citizen.id
+
     company = await company.update(req.body)
-    res.json(company).status(200)
+    return res.status(200).json(company)
   }
-  catch(error) {
-    next(error)
+  catch(err) {
+    next(err)
   }
-}) 
+})
 
-router.delete('/:id', async function(req, res, next) {
+router.delete("/", auth.required, async(req, res, next) => {
   try {
-    await req.app.get('sequelize').models.Company.destroy({where: {id: req.params.id}})
-    res.sendStatus(200)
+    let company = await req.app.get("sequelize").models.Company.destroy({where: {
+      id: req.body.id,
+      CitizenId: req.citizen.id
+    }})
+    return res.status(200).json(company)
   }
-  catch(error) {
-    next(error)
+  catch(err) {
+    next(err)
   }
 })
 

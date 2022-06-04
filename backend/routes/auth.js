@@ -37,3 +37,7 @@ module.exports.required = async(req, res, next) => {
     }
   }
 }
+
+module.exports.none = () => {
+  return next()
+}

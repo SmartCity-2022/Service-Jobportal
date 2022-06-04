@@ -35,7 +35,6 @@ const Jobsearchpage = () => {
 
     const searchUrl = "/jobs/results?name=" + jobTitle + "&type=" + jobType + "&field=" + jobField +"&worktime=" + worktime
 
-    console.log(state)
     await axios.get(process.env.REACT_APP_API_URL + searchUrl, [])
       .then(response => {
         setState({

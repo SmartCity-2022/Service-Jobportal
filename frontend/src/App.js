@@ -9,10 +9,10 @@ function App() {
     axios
       .get(process.env.REACT_APP_API_URL + "/auth", {withCredentials: true})
       .then((res) => {
-        console.log(res.data)
+        console.log(res)
       })
       .catch((err) => {
-        console.log(err.res)
+        console.log(err)
       })
   }
 

@@ -6,19 +6,18 @@ const {ValidationError} = require('sequelize')
 module.exports.required = async(req, res, next) => {
   if(config.node_env === 'development')
     return next()
-
+    
   if(!req.cookies)
-    return res.status(401)
+    return res.status(401).json({error: "Missing cookies"})
     
   const accessToken = req.cookies.accessToken
   const refreshToken = req.cookies.refreshToken
 
   if(!accessToken || !refreshToken)
-    return res.status(401)
-
+    return res.status(401).json({error: "Missing access or refresh token"})
+    
   try {
     const payload = verify(accessToken, process.env.SECRET)
-    
     let citizen = await req.app.get("sequelize").models.Citizen.findOne({where: {email: payload.email}})
     if(!citizen) {
       citizen = await req.app.get("sequelize").models.Citizen.create({email: payload.email})
@@ -28,13 +27,13 @@ module.exports.required = async(req, res, next) => {
   }
   catch(error) {
     if(error instanceof TokenExpiredError) {
-      res.status(500).json(error)
+      return res.status(500).json(error)
     }
     else if(error instanceof ValidationError) {
-      res.status(500).json(error)
+      return res.status(500).json(error)
     }
     else {
-      res.status(401).json(error)
+      return res.status(401).json(error)
     }
   }
 }

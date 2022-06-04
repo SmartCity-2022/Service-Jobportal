@@ -77,7 +77,9 @@ jobs:
     steps:
 
       - name: Copy to env
-        run: echo "NEW_VERSION=${{ needs.prepareBuild.outputs.new_version }}" >> $GITHUB_ENV
+        run: |
+          echo "NEW_VERSION=${{ needs.prepareBuild.outputs.new_version }}" >> $GITHUB_ENV
+          echo "SKIP=${{ needs.prepareBuild.outputs.skip }}"
 
       - name: Checkout repository
         uses: actions/checkout@v3

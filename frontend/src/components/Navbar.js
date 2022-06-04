@@ -1,11 +1,12 @@
 import * as React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import { ThemeProvider } from '@emotion/react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import { ThemeProvider } from '@emotion/react';
 import theme from '../theme'
 
 const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen', 'Firmenübersicht'];

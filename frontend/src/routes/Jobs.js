@@ -1,8 +1,10 @@
+import '../App.css';
+
+import { useEffect, useState } from "react";
+
+import Jobcard from "../components/Jobcard";
 import React from 'react';
 import axios from "axios";
-import { useEffect, useState } from "react";
-import Jobcard from "../components/Jobcard";
-import '../App.css';
 
 const Jobs = () => {
 

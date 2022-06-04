@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import axios from "axios";
-import JobDetailCard from '../components/JobDetailCard'
 import '../App.css';
+
+import React, {useEffect, useState} from 'react';
+
+import JobDetailCard from '../components/JobDetailCard'
+import axios from "axios";
 import { useParams } from 'react-router-dom';
 
 const Jobs = () => {

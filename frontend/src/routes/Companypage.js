@@ -19,11 +19,12 @@ const Companypage = () => {
       console.log(err)
     })
   }
+  // eslint-disable-next-line
   useEffect(() => {getCompanies()}, [])
 
   return (
     <>
-    <CompanyList/>
+      <CompanyList companies={userCompanies}/>
     </>
   )
 }

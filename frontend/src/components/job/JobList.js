@@ -1,5 +1,3 @@
-import '../App.css'
-
 import * as React from 'react';
 
 import Button from '@mui/material/Button';
@@ -11,9 +9,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { ThemeProvider } from '@emotion/react';
-import theme from '../theme'
+import theme from '../../theme'
 
-export default function Jobcard(props) {
+export default function JobList(props) {
   return (
     <ThemeProvider theme={theme}>
     <TableContainer elevation={0} sx = {{padding: 5}} component={Paper}>

@@ -1,12 +1,12 @@
 import { Button, Grid, MenuItem, TextField } from "@mui/material"
 import { useEffect, useState } from "react";
 
-import Jobcard from "../components/Jobcard"
+import JobList from "../components/job/JobList"
 import { ThemeProvider } from "@emotion/react"
 import axios from "axios";
 import theme from "../theme"
 
-const Jobsearch = () => {
+const Jobsearchpage = () => {
 
   const [state, setState] = useState({
     types: [],
@@ -135,9 +135,9 @@ const Jobsearch = () => {
             </TextField>
         </Grid>
       </Grid>
-      <Jobcard data={state.results}></Jobcard>
+      <JobList data={state.results}></JobList>
     </ThemeProvider>
   );
 }
 
-export default Jobsearch
+export default Jobsearchpage

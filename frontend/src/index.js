@@ -3,10 +3,10 @@ import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import App from './App';
-import Job from './routes/Job'
-import Jobs from './routes/Jobs'
-import Jobsearch from './routes/Jobsearch';
-import Navbar from './components/Navbar';
+import Job from './routes/JobDetailpage'
+import Jobpage from './routes/Jobpage'
+import Jobsearchpage from './routes/Jobsearchpage';
+import Navbar from './components/NavigationBar';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -18,9 +18,9 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<App/>}/>
-        <Route path = "/stellen" element = {<Jobs/>}/>
+        <Route path = "/stellen" element = {<Jobpage/>}/>
         <Route path = "/stellen/:id" element = {<Job/>}/>
-        <Route path = "/stellensuche" element = {<Jobsearch/>}/>
+        <Route path = "/stellensuche" element = {<Jobsearchpage/>}/>
         <Route path = "/meine-firmen" element = {<></>}/>
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,3 @@
-import '../App.css'
-
 import * as React from 'react';
 
 import Button from '@mui/material/Button';
@@ -8,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import { Link } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import Typography from '@mui/material/Typography';
-import theme from '../theme'
+import theme from '../../theme'
 
 export default function ImgMediaCard(props) {
   return (

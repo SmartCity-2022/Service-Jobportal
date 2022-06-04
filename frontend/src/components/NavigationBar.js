@@ -17,10 +17,7 @@ const links = {
   'Firmenübersicht': "/firmen"
 };
 
-
-
 const Navbar = () => {
-
   return (
     <ThemeProvider theme={theme}>
     <AppBar elevation={0} position="static" color="primary">

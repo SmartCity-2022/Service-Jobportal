@@ -9,12 +9,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import theme from '../theme'
 
-const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen', 'Firmenübersicht'];
+const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen', 'Firmenverwaltung'];
 const links = {
   'alle Stellen': "/stellen",
   'Stellensuche': "/stellensuche",
   'meine Bewerbungen': "/bewerbungen",
-  'Firmenübersicht': "/firmen"
+  'Firmenverwaltung': "/meine-firmen"
 };
 
 const Navbar = () => {

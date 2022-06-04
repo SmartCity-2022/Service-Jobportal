@@ -113,7 +113,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: ./backend
-          push: ${{ !needs.prepareBuild.outputs.skip }}
+          push: ${{ needs.prepareBuild.outputs.skip == false }}
           labels: ${{ steps.meta_backend.outputs.labels }}
           tags: ${{ steps.meta_backend.outputs.tags }}
 
@@ -159,7 +159,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: ./frontend
-          push: ${{ !needs.prepareBuild.outputs.skip }}
+          push: ${{ needs.prepareBuild.outputs.skip == false }}
           labels: ${{ steps.meta_frontend.outputs.labels }}
           tags: ${{ steps.meta_frontend.outputs.tags }}
 

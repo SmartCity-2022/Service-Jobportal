@@ -19,6 +19,7 @@ root.render(
         <Route path = "/stellen" element = {<Jobs/>}/>
         <Route path = "/stellen/:id" element = {<Job/>}/>
         <Route path = "/stellensuche" element = {<Jobsearch/>}/>
+        <Route path = "/meine-firmen" element = {<></>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

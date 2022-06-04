@@ -1,6 +1,7 @@
 const config = require('../config')
 const axios = require('axios')
 const {verify, TokenExpiredError} = require('jsonwebtoken')
+const {ValidationError} = require('sequelize')
 
 module.exports.required = async(req, res, next) => {
   if(config.node_env === 'development')
@@ -22,12 +23,15 @@ module.exports.required = async(req, res, next) => {
     if(!citizen) {
       citizen = await req.app.get("sequelize").models.Citizen.create({email: payload.email})
     }
-    req.user = citizen
+    req.citizen = citizen
     return next()
   }
   catch(error) {
     if(error instanceof TokenExpiredError) {
-      res.status(500).json("Token expired")
+      res.status(500).json(error)
+    }
+    else if(error instanceof ValidationError) {
+      res.status(500).json(error)
     }
     else {
       res.status(401).json(error)

@@ -1,62 +1,31 @@
 const router = require('express').Router()
+const auth = require('../auth')
 
-router.get('/:id/applications', async(req, res, next) => {
+router.get("/companies", auth.required, async(req, res, next) => {
   try {
-    let applications = req.app.get('sequelize').models.Application.findAll({
-      where: { CitizenId: req.params.id}
-    })
-    res.json(applications)
-  }
-  catch(error) {
-    return next(error)
-  }
-})
-
-router.get('/:email', async (req, res, next) => {
-  try {
-    let citizen = await req.app.get('sequelize').models.Citizen.findOne({
+    let companies = await req.app.get("sequelize").models.Company.findAll({
       where: {
-        email: req.params.email
+        CitizenId: req.citizen.id
       }
     })
-    if(!citizen)
-      res.sendStatus(404)
-    else
-      res.json(citizen).status(200)
+    res.json(companies).status(200)
   }
-  catch(error) {
-    next(error)
+  catch(err) {
+    next(err)
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.get("/applications", auth.required, async(req, res, next) => {
   try {
-    let citizen = await req.app.get('sequelize').models.Citizen.create(req.body)
-    res.json(citizen).status(201)
-  } 
-  catch(error) {
-    next(error)
+    let applications = await req.app.get("sequelize").models.Application.findAll({
+      where: {
+        CitizenId: req.citizen.id
+      }
+    })
+    res.json(applications).status(200)
   }
-})
-
-router.put('/:id', async (req, res, next) => {
-  try {
-    let citizen = await req.app.get('sequelize').models.Citizen.findByPk(req.params.id)
-    citizen = await citizen.update({email: req.body.email}, {where: {email: req.body.email}})
-    return res.json(citizen).status(200)
-  }
-  catch(error) {
-    next(error)
-  }
-})
-
-router.delete('/:id', async (req, res, next) => {
-  try {
-    await req.app.get('sequelize').models.Citizen.destroy({where: {email: req.params.id}})
-    res.sendStatus(200)
-  }
-  catch(error) {
-    next(error)
+  catch(err) {
+    next(err)
   }
 })
 

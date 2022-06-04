@@ -1,11 +1,12 @@
+import { Button, Grid, MenuItem, TextField } from "@mui/material"
 import { useEffect, useState } from "react";
+
+import JobList from "../components/job/JobList"
 import { ThemeProvider } from "@emotion/react"
-import { Button, Grid, MenuItem, TextField} from "@mui/material"
 import axios from "axios";
 import theme from "../theme"
-import Jobcard from "../components/Jobcard"
 
-const Jobsearch = () => {
+const Jobsearchpage = () => {
 
   const [state, setState] = useState({
     types: [],
@@ -34,7 +35,6 @@ const Jobsearch = () => {
 
     const searchUrl = "/jobs/results?name=" + jobTitle + "&type=" + jobType + "&field=" + jobField +"&worktime=" + worktime
 
-    console.log(state)
     await axios.get(process.env.REACT_APP_API_URL + searchUrl, [])
       .then(response => {
         setState({
@@ -134,9 +134,9 @@ const Jobsearch = () => {
             </TextField>
         </Grid>
       </Grid>
-      <Jobcard data={state.results}></Jobcard>
+      <JobList data={state.results}></JobList>
     </ThemeProvider>
   );
 }
 
-export default Jobsearch
+export default Jobsearchpage

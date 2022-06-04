@@ -1,10 +1,12 @@
-import React from 'react';
-import axios from "axios";
-import { useEffect, useState } from "react";
-import Jobcard from "../components/Jobcard";
 import '../App.css';
 
-const Jobs = () => {
+import { useEffect, useState } from "react";
+
+import JobList from "../components/job/JobList";
+import React from 'react';
+import axios from "axios";
+
+const Jobpage = () => {
 
   const [totalJobs, setTotalJobs] = useState([]);
   useEffect(() => { getJobs() }, []);
@@ -17,9 +19,9 @@ const Jobs = () => {
 
   return (
     <>
-      <Jobcard data={totalJobs} />
+      <JobList data={totalJobs} />
     </>
   );
 };
 
-export default Jobs;
+export default Jobpage;

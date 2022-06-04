@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import axios from "axios";
-import JobDetailCard from '../components/JobDetailCard'
 import '../App.css';
+
+import React, {useEffect, useState} from 'react';
+
+import JobDetailCard from '../components/job/JobDetails'
+import axios from "axios";
 import { useParams } from 'react-router-dom';
 
-const Jobs = () => {
+const JobDetailpage = () => {
 
   let { id } = useParams();
   const [job, setJob] = useState([]);
@@ -22,4 +24,4 @@ const Jobs = () => {
   );
 };
 
-export default Jobs;
+export default JobDetailpage;

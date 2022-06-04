@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
 })
 
 router.get('/auth', auth.required, (req, res, next) => {
-  res.json("Auth passed for user " + req.user.email).status(200)
+  res.json(req.citizen).status(200)
 })
 
 router.get('/types', async(req, res) => {
   res.json(types).status(200)
 })
 
-router.use('/citizens', require('./citizens'))
+router.use('/citizen', require('./citizens'))
 router.use('/jobs', require('./jobs'))
 router.use('/jobs/:jobId/applications', require('./applications'))
 router.use('/companies', require('./companies'))

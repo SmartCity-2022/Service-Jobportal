@@ -1,13 +1,60 @@
-import { Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Link,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField
+} from '@mui/material';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from "@emotion/react"
+import axios from 'axios';
 import theme from "../../theme"
+import { useState } from 'react';
 
 export default function CompanyList(props) {
-  
+  const [open, setOpen] = useState(false)
+  const [name, setName] = useState("")
+  const [desc, setDesc] = useState("")
+
+  const handleChange = (event) => {
+    if(event.target.name === "name")
+      setName(event.target.value)
+    else if(event.target.name === "description")
+      setDesc(event.target.value)
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true) 
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleSubmit = async() => {
+    const url = process.env.REACT_APP_API_URL + "/companies/"
+
+    await axios.post(url, {
+      "name": name,
+      "description": desc
+    }, {withCredentials: true})
+      .then(res => {
+        console.log(res)
+      })
+    setOpen(false)
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <TableContainer elevation={0} sx={{padding: 5}} component={Paper}>
@@ -40,11 +87,45 @@ export default function CompanyList(props) {
 
             <TableRow key={9000} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
               <TableCell>
-                <Link href=""><AddCircleIcon></AddCircleIcon></Link>
+                <Button variant="contained" size="small" onClick={handleClickOpen} startIcon={<AddCircleIcon/>}>hinzufügen</Button>
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
+
+        <Dialog open={open} onClose={handleClose} fullWidth="md" sx={{padding:5}}>
+          <DialogTitle>Firma hinzufügen</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              required
+              variant="standard"
+              margin="dense"
+              name="name"
+              onChange={handleChange}
+              label="Firmenname"
+              fullWidth
+              helperText="Firmenbezeichnung inklusive Rechtsform"
+            />
+          
+            <TextField
+              variant="standard"
+              margin="dense"
+              name="description"
+              onChange={handleChange}
+              label="Firmenbeschreibung"
+              fullWidth
+              multiline
+              rows={4}
+              helperText="Informationen über das Unternehmen"
+            />
+            
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSubmit}>Erstellen</Button>
+          </DialogActions>
+        </Dialog>
+
       </TableContainer>
     </ThemeProvider>
   )

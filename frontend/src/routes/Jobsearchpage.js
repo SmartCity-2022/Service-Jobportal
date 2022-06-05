@@ -66,6 +66,7 @@ const Jobsearchpage = () => {
               label="Typ"
               onChange={handleChange}
               name="jobType"
+              variant="standard"
               InputProps={{ style: { fontSize: 14 } }}
 
               sx={{width: "100%"}}
@@ -82,6 +83,7 @@ const Jobsearchpage = () => {
               label="Fachbereich"
               onChange={handleChange}
               name="jobField"
+              variant="standard"
               InputProps={{ style: { fontSize: 14 } }}
 
               sx={{width: "100%", marginTop: 3}}
@@ -111,6 +113,7 @@ const Jobsearchpage = () => {
               label="Arbeitszeit"
               onChange={handleChange}
               name="worktime"
+              variant="standard"
               InputProps={{ style: { fontSize: 14 } }}
 
               sx={{width: "100%"}}
@@ -126,6 +129,7 @@ const Jobsearchpage = () => {
               label="Verfügbar ab"
               onChange={handleChange}
               name="availableAt"
+              variant="standard"
               InputProps={{ style: { fontSize: 14 } }}
 
               sx={{width: "100%", marginTop: 3}}

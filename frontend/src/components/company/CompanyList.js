@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Link,
   Paper,
   Table,
   TableBody,
@@ -91,7 +90,10 @@ export default function CompanyList(props) {
                 <TableCell> {comp.createdAt} </TableCell>
 
                 <TableCell align="right">
-                  <Button variant="contained">Stellen anzeigen</Button>
+                  <Button variant="contained" href={"/firma/" + comp.id}>Stelle ausschreiben</Button>
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" href={"/firma/" + comp.id}>Stellen anzeigen</Button>
                 </TableCell>
                 
                 <TableCell align="right">

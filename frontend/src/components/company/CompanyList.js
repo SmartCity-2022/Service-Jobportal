@@ -50,7 +50,7 @@ export default function CompanyList(props) {
       "description": desc
     }, {withCredentials: true})
       .then(res => {
-        console.log(res)
+        props.companies.push(res.data)
       })
     setOpen(false)
   }

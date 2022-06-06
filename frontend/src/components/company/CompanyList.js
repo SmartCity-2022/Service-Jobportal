@@ -3,6 +3,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Link,
   Paper,
   Table,
@@ -23,6 +24,7 @@ import theme from "../../theme"
 import { useState } from 'react';
 
 export default function CompanyList(props) {
+  const [companies, changeCompanies] = useState(props.companies)
   const [open, setOpen] = useState(false)
   const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
@@ -50,9 +52,21 @@ export default function CompanyList(props) {
       "description": desc
     }, {withCredentials: true})
       .then(res => {
-        props.companies.push(res.data)
+        console.log(res)
+        companies.push(res.data)
       })
     setOpen(false)
+  }
+
+  const handleDelete = async(comp) => {
+    const url = process.env.REACT_APP_API_URL + "/companies/" + comp.id
+    await axios.delete(url, {withCredentials: true})
+      .then(() => {
+        let index = companies.indexOf(comp)
+        console.log(index)
+        
+        changeCompanies(companies.filter(item => item !== comp))
+      })
   }
 
   return (
@@ -69,7 +83,8 @@ export default function CompanyList(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(props.companies) && props.companies.map(comp => (
+            {Array.isArray(companies) && companies.map(comp => 
+            {return (
               <TableRow key={comp.id} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
                 <TableCell> {comp.id} </TableCell>
                 <TableCell> {comp.name} </TableCell>
@@ -80,10 +95,10 @@ export default function CompanyList(props) {
                 </TableCell>
                 
                 <TableCell align="right">
-                  <Link href="" color="error"><DeleteIcon></DeleteIcon></Link>
+                  <IconButton onClick={() => handleDelete(comp)}><DeleteIcon/></IconButton>
                 </TableCell>
               </TableRow>
-            ))}
+            )})}
 
             <TableRow key={9000} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
               <TableCell>
@@ -92,7 +107,7 @@ export default function CompanyList(props) {
             </TableRow>
           </TableBody>
         </Table>
-
+                  
         <Dialog open={open} onClose={handleClose} fullWidth="md" sx={{padding:5}}>
           <DialogTitle>Firma hinzufügen</DialogTitle>
           <DialogContent>

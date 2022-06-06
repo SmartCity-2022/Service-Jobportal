@@ -40,10 +40,10 @@ router.put("/", auth.required, async(req, res, next) => {
   }
 })
 
-router.delete("/", auth.required, async(req, res, next) => {
+router.delete("/:id", auth.required, async(req, res, next) => {
   try {
     let company = await req.app.get("sequelize").models.Company.destroy({where: {
-      id: req.body.id,
+      id: req.params.id,
       CitizenId: req.citizen.id
     }})
     return res.status(200).json(company)

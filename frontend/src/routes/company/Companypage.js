@@ -1,9 +1,9 @@
-import "../App.css"
+import "../../App.css"
 
 import { useEffect, useState } from "react"
 
-import CompanyList from "../components/company/CompanyList"
-import Errorpage from "./Errorpage"
+import CompanyList from "../../components/company/CompanyList"
+import Errorpage from "../Errorpage"
 import axios from "axios"
 
 var auth

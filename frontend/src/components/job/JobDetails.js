@@ -1,3 +1,5 @@
+import "moment/locale/de"
+
 import * as React from 'react';
 
 import Button from '@mui/material/Button';
@@ -7,6 +9,7 @@ import { Grid } from '@mui/material';
 import { Link } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import Typography from '@mui/material/Typography';
+import moment from "moment"
 import theme from '../../theme'
 
 export default function ImgMediaCard(props) {
@@ -19,7 +22,9 @@ export default function ImgMediaCard(props) {
           {props.job.name}
         </Typography>
         <Typography gutterBottom variant="h6" component="div">
-          <Link href="/" underline="none">{props.job.Company ? props.job.Company.name : null}</Link>
+          <Link href={"/firmen/" + (props.job.Company ? props.job.Company.id : null)} underline="none">
+            {props.job.Company ? props.job.Company.name : null}
+          </Link>
         </Typography>
 
         <Grid container spacing={4} marginTop={1} marginBottom={1}>
@@ -32,7 +37,7 @@ export default function ImgMediaCard(props) {
             <Grid item xs>{props.job.field}</Grid>
             <Grid item xs>{props.job.type}</Grid>
             <Grid item xs>{props.job.worktime}</Grid>
-            <Grid item xs>{props.job.availableAt}</Grid>
+            <Grid item xs>{moment(props.job.availableAt).locale("de").format("LL")}</Grid>
         </Grid>
       </CardContent>
       <CardContent>

@@ -60,7 +60,7 @@ export default function CompanyList(props) {
       <TableContainer elevation={0} sx={{padding: 5}} component={Paper}>
         <Table size="large">
           <TableHead>
-            <TableRow size="10">
+            <TableRow>
               <TableCell>Firmen-Nr.</TableCell>
               <TableCell>Firmenname</TableCell>
               <TableCell>Erstellungsdatum</TableCell>

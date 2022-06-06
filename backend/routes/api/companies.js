@@ -1,10 +1,22 @@
 const router = require('express').Router()
 const auth = require('../auth')
 
-router.get("/:id", auth.none, async(req, res, next) => {
+router.get("/:id", async(req, res, next) => {
   try {
-    let company = await req.app.get("sequelize").models.Company.findByPk(req.body.id)
+    let company = await req.app.get("sequelize").models.Company.findByPk(req.params.id)
     return res.status(200).json(company)
+  }
+  catch(err) {
+    next(err)
+  }
+})
+
+router.get("/:id/jobs", async(req, res, next) => {
+  try {
+    let jobs = await req.app.get("sequelize").models.Job.findAll({where: {
+      CompanyId: req.params.id
+    }})
+    return res.status(200).json(jobs)
   }
   catch(err) {
     next(err)

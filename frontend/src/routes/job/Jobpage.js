@@ -1,8 +1,8 @@
-import '../App.css';
+import '../../App.css';
 
 import { useEffect, useState } from "react";
 
-import JobList from "../components/job/JobList";
+import JobList from "../../components/job/JobList";
 import React from 'react';
 import axios from "axios";
 

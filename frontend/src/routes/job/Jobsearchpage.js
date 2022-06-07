@@ -1,16 +1,17 @@
 import { Button, Grid, MenuItem, TextField } from "@mui/material"
 import { useEffect, useState } from "react";
 
-import JobList from "../components/job/JobList"
+import JobList from "../../components/job/JobList"
 import { ThemeProvider } from "@emotion/react"
 import axios from "axios";
-import theme from "../theme"
+import theme from "../../theme"
 
 const Jobsearchpage = () => {
 
   const [state, setState] = useState({
     types: [],
 
+    results: [],
     jobTitle: "",
     jobType: "",
     jobField: "",
@@ -44,7 +45,7 @@ const Jobsearchpage = () => {
       })
   }
   // eslint-disable-next-line
-  useEffect(() => {search(), getTypes()}, [])
+  useEffect(() => {getTypes()}, [])
 
   const handleChange = (event) => {
     const name = event.target.name

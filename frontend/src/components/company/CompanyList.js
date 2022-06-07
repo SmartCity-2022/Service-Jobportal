@@ -3,7 +3,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Link,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -23,6 +23,7 @@ import theme from "../../theme"
 import { useState } from 'react';
 
 export default function CompanyList(props) {
+  const [companies, changeCompanies] = useState(props.companies)
   const [open, setOpen] = useState(false)
   const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
@@ -51,8 +52,20 @@ export default function CompanyList(props) {
     }, {withCredentials: true})
       .then(res => {
         console.log(res)
+        companies.push(res.data)
       })
     setOpen(false)
+  }
+
+  const handleDelete = async(comp) => {
+    const url = process.env.REACT_APP_API_URL + "/companies/" + comp.id
+    await axios.delete(url, {withCredentials: true})
+      .then(() => {
+        let index = companies.indexOf(comp)
+        console.log(index)
+        
+        changeCompanies(companies.filter(item => item !== comp))
+      })
   }
 
   return (
@@ -60,7 +73,7 @@ export default function CompanyList(props) {
       <TableContainer elevation={0} sx={{padding: 5}} component={Paper}>
         <Table size="large">
           <TableHead>
-            <TableRow size="10">
+            <TableRow>
               <TableCell>Firmen-Nr.</TableCell>
               <TableCell>Firmenname</TableCell>
               <TableCell>Erstellungsdatum</TableCell>
@@ -69,21 +82,25 @@ export default function CompanyList(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(props.companies) && props.companies.map(comp => (
+            {Array.isArray(companies) && companies.map(comp => 
+            {return (
               <TableRow key={comp.id} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
                 <TableCell> {comp.id} </TableCell>
                 <TableCell> {comp.name} </TableCell>
                 <TableCell> {comp.createdAt} </TableCell>
 
                 <TableCell align="right">
-                  <Button variant="contained">Stellen anzeigen</Button>
+                  <Button variant="contained" href={"/firma/" + comp.id}>Stelle ausschreiben</Button>
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" href={"/firma/" + comp.id}>Stellen anzeigen</Button>
                 </TableCell>
                 
                 <TableCell align="right">
-                  <Link href="" color="error"><DeleteIcon></DeleteIcon></Link>
+                  <IconButton onClick={() => handleDelete(comp)}><DeleteIcon/></IconButton>
                 </TableCell>
               </TableRow>
-            ))}
+            )})}
 
             <TableRow key={9000} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
               <TableCell>
@@ -92,7 +109,7 @@ export default function CompanyList(props) {
             </TableRow>
           </TableBody>
         </Table>
-
+                  
         <Dialog open={open} onClose={handleClose} fullWidth="md" sx={{padding:5}}>
           <DialogTitle>Firma hinzufügen</DialogTitle>
           <DialogContent>

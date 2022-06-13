@@ -30,9 +30,9 @@ root.render(
           <Route path = "/stellen" element = {<Jobpage/>}/>
           <Route path = "/stellen/:id" element = {<Job/>}/>
           <Route path = "/stellensuche" element = {<Jobsearchpage/>}/>
-          <Route path = "/meine-firmen" element = {<Companypage/>}/>
+          <Route path = "/meine-firmen" element = {<ProtectedRoute element={<Companypage/>}/>}/>
           <Route path = "/firma/:id" element = {<Companydetailpage/>}/>
-          <Route path = "/add" element = {<ProtectedRoute element={<Jobaddpage/>}/>}/>
+          <Route path = "/stellenausschreibung" element = {<ProtectedRoute element={<Jobaddpage/>}/>}/>
           
           <Route path = "*" element = {<Errorpage status={404}/>}/>
         </Routes>

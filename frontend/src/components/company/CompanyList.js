@@ -19,6 +19,7 @@ import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from "@emotion/react"
 import axios from 'axios';
+import moment from 'moment';
 import theme from "../../theme"
 import { useState } from 'react';
 
@@ -45,7 +46,7 @@ export default function CompanyList(props) {
 
   const handleSubmit = async() => {
     const url = process.env.REACT_APP_API_URL + "/companies/"
-
+    
     await axios.post(url, {
       "name": name,
       "description": desc
@@ -79,6 +80,7 @@ export default function CompanyList(props) {
               <TableCell>Erstellungsdatum</TableCell>
               <TableCell align="right"></TableCell>
               <TableCell align="right"></TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -87,10 +89,11 @@ export default function CompanyList(props) {
               <TableRow key={comp.id} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
                 <TableCell> {comp.id} </TableCell>
                 <TableCell> {comp.name} </TableCell>
-                <TableCell> {comp.createdAt} </TableCell>
+                <TableCell> {moment(comp.createdAt).locale("de").format("LLL")} </TableCell>
+                
 
                 <TableCell align="right">
-                  <Button variant="contained" href={"/firma/" + comp.id}>Stelle ausschreiben</Button>
+                  <Button variant="contained" href={"/stellenausschreibung"}>Stelle ausschreiben</Button>
                 </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" href={"/firma/" + comp.id}>Stellen anzeigen</Button>

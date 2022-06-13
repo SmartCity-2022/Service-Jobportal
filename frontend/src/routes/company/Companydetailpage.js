@@ -1,10 +1,10 @@
-import { Card, CardContent, Typography } from "@mui/material"
+import { Card, CardContent, Divider, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
 import CompanyJobList from "../../components/job/CompanyJobList"
 import Errorpage from "../Errorpage"
-import JobList from "../../components/job/JobList"
 import axios from "axios"
+import moment from "moment"
 import { useParams } from "react-router-dom"
 
 const Companydetailpage = () => {
@@ -25,7 +25,7 @@ const Companydetailpage = () => {
   if(!company) {
     return (
       <>
-      <Errorpage status={404}></Errorpage>
+        <Errorpage status={404}></Errorpage>
       </>
     )
   }
@@ -34,23 +34,22 @@ const Companydetailpage = () => {
       <Card elevation={0} sx={{margin: 5}}>
         <CardContent>
           <Typography variant="h4">{company.name}</Typography>
-          <Typography fontSize={20}>Beigetreten am {company.createdAt}</Typography>
+          <Typography color="text.secondary" fontSize={15}>Beigetreten am {moment(company.createdAt).locale("de").format("LL")}</Typography>
+          <Divider/>
           <br/>
           <Typography fontSize={20}>Beschreibung</Typography>
             <Typography variant="body1" color="text.secondary">
-              {company.description}
-          </Typography>
+              <pre>
+                {company.description}
+              </pre>
+            </Typography>
         </CardContent>
       </Card>
-      
       <Card elevation={0} sx={{margin: 5}}>
         <CardContent>
-          Alle Firmen von {company.name}:
-
-          <CompanyJobList jobs={companyJobs}/>
+          <CompanyJobList jobs={companyJobs} company={company.name}/>
         </CardContent>
       </Card>
-
     </>
   )
 }

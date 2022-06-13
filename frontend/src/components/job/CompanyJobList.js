@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 
 import { Button } from "@mui/material"
 
@@ -7,6 +7,9 @@ const CompanyJobList = (props) => {
     <TableContainer elevation={0}>
     <Table sx={{ minWidth: 650 }} size="large">
       <TableHead>
+        <TableRow>
+          <td><Typography fontWeight={600}>Alle Stellenangebote von {props.company}:</Typography></td>
+        </TableRow>
         <TableRow size="20">
           <TableCell>Berufsbezeichnung</TableCell>
           <TableCell align="right">Typ</TableCell>

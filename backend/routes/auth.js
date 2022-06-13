@@ -4,8 +4,11 @@ const {verify, TokenExpiredError} = require('jsonwebtoken')
 const {ValidationError} = require('sequelize')
 
 module.exports.required = async(req, res, next) => {
-  if(config.node_env === 'development')
+  if(config.node_env === 'development') {
+    let citizen = await req.app.get("sequelize").models.Citizen.findByPk(1)
+    req.citizen = citizen
     return next()
+  } 
     
   if(!req.cookies)
     return res.status(401).json({error: "Missing cookies"})

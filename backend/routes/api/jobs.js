@@ -1,8 +1,7 @@
 const { Op } = require('sequelize')
-const rabbitmq = require('../../rabbitmq')
 const router = require('express').Router()
-const types = require('./types')
-const config = require('../../config')
+const auth = require('../auth')
+
 
 router.get('/', async (req, res, next) => {
   try {
@@ -45,10 +44,6 @@ router.get('/results', async (req, res, next) => {
   }
 })
 
-router.get('/types', async (req, res, next) => {
-  res.json(types).status(200)
-})
-
 router.get('/:jobId', async (req, res, next) => {
   try {
     let job = await req.app.get('sequelize').models.Job.findByPk(req.params.jobId, 
@@ -64,18 +59,9 @@ router.get('/:jobId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', auth.required, async (req, res, next) => {
   try {
     let job = await req.app.get('sequelize').models.Job.create(req.body)
-
-    //Publish new Jobs
-    const connection = await rabbitmq.getConnection()
-    const channel = await connection.createChannel()
-    await channel.assertExchange(config.rabbitmq_exchange, "topic", {durable: false})
-    
-    channel.publish(config.rabbitmq_exchange, "service.jobportal.job_published",
-    Buffer.from(JSON.stringify({id: job.id, name: job.name }))
-    )
     res.json(job).status(201)
   }
   catch(error) {
@@ -83,7 +69,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/', async(req, res, next) => {
+router.put('/', auth.required, async(req, res, next) => {
   req.app.get('sequelize').models.Job.findByPk(req.body.id)
     .then(async(job) => {
       if(!job)
@@ -107,7 +93,7 @@ router.put('/', async(req, res, next) => {
     })  
 })
 
-router.delete('/', async(req, res, next) => {
+router.delete('/', auth.required, async(req, res, next) => {
   try {
     await req.app.get('sequelize').models.Citizen.destroy({where: {id: req.body.id}})
     res.sendStatus(200)

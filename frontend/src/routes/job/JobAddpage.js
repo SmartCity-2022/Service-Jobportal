@@ -1,12 +1,12 @@
 import { Paper, TextField, Typography } from "@mui/material"
 
+import Button from '@mui/material/Button'
 import { MenuItem } from "@mui/material"
 import axios from "axios"
 import { useEffect } from "react"
 import { useState } from "react"
 
 const JobAddpage = () => {
-
   const [state, setState] = useState({
     types: [],
     companies: [],
@@ -22,44 +22,46 @@ const JobAddpage = () => {
   })
 
   const getTypes = async() => {
-    const url = process.env.REACT_APP_API_URL + "/types"
-    await axios.get(url, [])
-      .then(res => {
+    Promise.all([
+      axios.get(process.env.REACT_APP_API_URL + "/types", []),
+      axios.get(process.env.REACT_APP_API_URL + "/citizen/companies", {withCredentials: true}, [])
+    ])
+      .then(([res1, res2]) => {
         setState({
           ...state,
-          types: res.data
+          types: res1.data,
+          companies: res2.data
         })
       })
   }
-  console.log(state)
-  const getCompanies = async() => {
-    const url = process.env.REACT_APP_API_URL + "/citizen/companies"
-    await axios.get(url, {withCredentials: true}, []).then(res => {
-      setState({
-        ...state,
-        companies: res.data
-      })
-      console.log(state)
-    })
-  }
 
   // eslint-disable-next-line
-  useEffect(() => {getCompanies()},[])
-  useEffect(() => {getTypes()}, [])
-
+  useEffect(() => { getTypes() }, [])
   
-
   const handleChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-  
     setState({
       ...state,
       [name]: value
     });
-    console.log(state)
   }
-  
+
+  const submit = async() => {
+    const url = process.env.REACT_APP_API_URL + "/jobs"
+    await axios.post(url, {
+      "name": state.jobTitle,
+      "field": state.jobField,
+      "type": state.jobType,
+      "worktime": state.worktime,
+      "availableAt": state.availableAt,
+      "description": state.description,
+      "conditions": state.conditions,
+      "CompanyId": state.company
+    }, {withCredentials: true}).then(res => {
+      console.log(res)
+    })
+  }
 
   return (
     <div className="content">
@@ -74,12 +76,12 @@ const JobAddpage = () => {
           sx={{marginBottom: "10%"}}
           name="jobTitle"
           value={state.jobTitle}
+          FormHelperTextProps="Kek"
           onChange={handleChange}
         />
 
-        <TextField
+        <TextField select
           required
-          select
           variant="filled"
           fullWidth
           label="Typ"
@@ -93,9 +95,8 @@ const JobAddpage = () => {
           ))}
         </TextField>
         
-        <TextField
+        <TextField select
           required
-          select
           variant="filled"
           fullWidth
           label="Fachbereich"
@@ -109,9 +110,8 @@ const JobAddpage = () => {
           ))}
         </TextField>
 
-        <TextField
+        <TextField select
           required
-          select
           variant="filled"
           fullWidth
           label="Arbeitszeit"
@@ -149,9 +149,8 @@ const JobAddpage = () => {
           onChange={handleChange}
         />
 
-        <TextField
+        <TextField select
           required
-          select
           variant="filled"
           fullWidth
           label="Firma"
@@ -161,12 +160,30 @@ const JobAddpage = () => {
           onChange={handleChange}
         >
           {Array.isArray(state.companies) && state.companies.map(comp => (
-            <MenuItem key={comp.id} value={comp.name}>{comp.name}</MenuItem>
+            <MenuItem key={comp.id} value={comp.id}>{comp.name}</MenuItem>
           ))}
         </TextField>
+
+        <Typography variant="body1">
+          Mit einem klick auf "Absenden" bestätigen Sie, dass die angegebenen Daten auf dem
+          Jobportal für potentialle Bewerber veröffentlicht werden. <br/>
+          Außerdem bestätigen Sie, von Ihrer Firma für das ausstellen von Stellen bevollmächtigt zu sein.
+        </Typography>
+
+        <Button
+          size="large"
+          variant="contained"
+          fullWidth
+          href="/"
+          onClick={submit}
+          sx={{
+            mt: "3%"
+          }}
+        >
+          Stellenanzeige absenden
+        </Button>
       </Paper>
     </div>
-
   )
 }
 

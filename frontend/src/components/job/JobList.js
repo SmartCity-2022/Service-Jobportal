@@ -23,12 +23,12 @@ export default function JobList(props) {
             <TableCell align="right">Fachrichtung</TableCell>
             <TableCell align="right">Arbeitszeit</TableCell>
             <TableCell align="right">Firma</TableCell>
-            <TableCell align="right"> </TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {Array.isArray(props.data) && props.data.map((row) => (
-            <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow key={row.id}>
 
               <TableCell> {row.name} </TableCell>
               <TableCell align="right"> {row.type} </TableCell>
@@ -43,5 +43,5 @@ export default function JobList(props) {
       </Table>
     </TableContainer>
     </ThemeProvider>
-  );
+  )
 }

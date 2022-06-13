@@ -22,7 +22,7 @@ export default function ImgMediaCard(props) {
           {props.job.name}
         </Typography>
         <Typography gutterBottom variant="h6" component="div">
-          <Link href={"/firmen/" + (props.job.Company ? props.job.Company.id : null)} underline="none">
+          <Link href={"/firma/" + (props.job.Company ? props.job.Company.id : null)} underline="none">
             {props.job.Company ? props.job.Company.name : null}
           </Link>
         </Typography>
@@ -51,7 +51,9 @@ export default function ImgMediaCard(props) {
             Beschreibung
         </Typography>
         <Typography gutterBottom variant="body2" component="div">
-        {props.job.description}
+          <pre>
+            {props.job.description}
+          </pre>
         </Typography>
       </CardContent>
     </Card>
@@ -62,7 +64,9 @@ export default function ImgMediaCard(props) {
             Anforderungen an den Bewerber
         </Typography>
         <Typography gutterBottom variant="body2" component="div">
+          <pre>
             {props.job.conditions}
+          </pre>
         </Typography>
       </CardContent>
     </Card>

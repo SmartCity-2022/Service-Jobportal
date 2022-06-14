@@ -14,6 +14,7 @@ import Navbar from './components/NavigationBar';
 import ProtectedRoute from './components/ProtectedRoute';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Submitapplicationpage from './routes/application/Submitapplicationpage';
 import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
 
@@ -33,7 +34,8 @@ root.render(
           <Route path = "/meine-firmen" element = {<ProtectedRoute element={<Companypage/>}/>}/>
           <Route path = "/firma/:id" element = {<Companydetailpage/>}/>
           <Route path = "/stellenausschreibung" element = {<ProtectedRoute element={<Jobaddpage/>}/>}/>
-          
+          <Route path = "/stellen/:id/bewerbung" element = {<ProtectedRoute element= {<Submitapplicationpage/>}/>}/>
+
           <Route path = "*" element = {<Errorpage status={404}/>}/>
         </Routes>
       </BrowserRouter>

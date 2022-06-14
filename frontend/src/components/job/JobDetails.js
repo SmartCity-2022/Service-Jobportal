@@ -41,7 +41,7 @@ export default function ImgMediaCard(props) {
         </Grid>
       </CardContent>
       <CardContent>
-        <Button size="large" variant="contained">Bewerbung schreiben</Button>
+        <Button size="large" href={"/stellen/" + props.job.id + "/bewerbung"} variant="contained">Bewerbung schreiben</Button>
       </CardContent>
     </Card>
 

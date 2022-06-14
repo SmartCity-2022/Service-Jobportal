@@ -49,7 +49,9 @@ const JobAddpage = () => {
     });
   }
 
-  const submit = async() => {
+  const submit = async(evt) => {
+    evt.preventDefault()
+
     const url = process.env.REACT_APP_API_URL + "/jobs"
     await axios.post(url, {
       "name": state.jobTitle,

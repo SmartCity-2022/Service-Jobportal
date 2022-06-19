@@ -1,17 +1,19 @@
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const fileUpload = require('express-fileupload')
 
 const config = require('./config')
 const models = require('./models')
 const rabbitmq = require('./rabbitmq')
 
 const app = express()
-app.set('sequelize', models)
+app.set('sequelize', models.sequelize)
 
 app.use(express.json())
 app.use(cors({origin: true, credentials: true}))
 app.use(cookieParser())
+app.use(fileUpload())
 
 app.use(require('./routes'))
 

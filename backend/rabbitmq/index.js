@@ -2,9 +2,9 @@ let amqp = require('amqplib');
 const config = require('../config')
 
 const connection = amqp.connect(config.rabbitmq_url, (error0, connection) => {
-  if (error0) throw error0;
+  if (error0) return
 
-  return connection;
+  return connection
 });
 
 function getConnection() {
@@ -29,7 +29,7 @@ async function listen(queueName, routingKey, callback) {
     })
   }
   catch(error) {
-    console.log(error)
+    console.log(error.message)
   }
 }
 
@@ -44,7 +44,7 @@ async function publish(routingKey, payload) {
     console.log("[RabbitMQ] published '" + payload + "' at '" + routingKey + "'")
   }
   catch(error) {
-    console.log(error)
+    console.log(error.message)
   }
 }
 

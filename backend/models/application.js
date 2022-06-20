@@ -7,13 +7,12 @@ module.exports = (sequelize) => {
       document: {
         type: DataTypes.STRING
       },
-      date: {
-        type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.NOW,
-        allowNull: false
+      status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: null
       },
-      response: {
-        type: DataTypes.BOOLEAN
+      description: {
+        type: DataTypes.STRING
       }
     }
   )

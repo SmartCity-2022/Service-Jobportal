@@ -24,7 +24,6 @@ router.post("/", auth.required, async(req, res, next) => {
   try {
     var application = await req.app.get("sequelize").models.Application.create({
       document: path,
-      response: null,
       CitizenId: req.citizen.id,
       JobId: req.params.jobId
     })
@@ -62,7 +61,14 @@ router.get("/:applicationId/document/", auth.required, async(req, res, next) => 
 })
 
 router.put("/:applicationId", auth.required, async(req, res, next) => {
-
+  try {
+    var application = await req.app.get("sequelize").models.Application.findByPk(req.params.applicationId)
+    if(!application)
+      return res.json({status: 200, message: "application does not exist"}).status(200)
+  }
+  catch(err) {
+    next(err)
+  }
 })
 
 module.exports = router

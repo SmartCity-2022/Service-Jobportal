@@ -1,8 +1,9 @@
-import { Card, CardContent, Divider, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
+import { Box } from "@mui/system"
 import CompanyJobList from "../../components/job/CompanyJobList"
 import Errorpage from "../Errorpage"
+import { Typography } from "@mui/material"
 import axios from "axios"
 import moment from "moment"
 import { useParams } from "react-router-dom"
@@ -22,35 +23,25 @@ const Companydetailpage = () => {
   // eslint-disable-next-line
   useEffect(() => {getCompany(), getCompanyJobs()}, [])
 
-  if(!company) {
-    return (
-      <>
-        <Errorpage status={404}></Errorpage>
-      </>
-    )
-  }
-  return (
-    <>
-      <Card elevation={0} sx={{margin: 5}}>
-        <CardContent>
-          <Typography variant="h4">{company.name}</Typography>
-          <Typography color="text.secondary" fontSize={15}>Beigetreten am {moment(company.createdAt).locale("de").format("LL")}</Typography>
-          <Divider/>
-          <br/>
-          <Typography fontSize={20}>Beschreibung</Typography>
-            <Typography variant="body1" color="text.secondary">
-              <pre>
-                {company.description}
-              </pre>
-            </Typography>
-        </CardContent>
-      </Card>
-      <Card elevation={0} sx={{margin: 5}}>
-        <CardContent>
-          <CompanyJobList jobs={companyJobs} company={company.name}/>
-        </CardContent>
-      </Card>
-    </>
+  if(!company) return <Errorpage status={404}/>
+  else return (
+    <Box padding={5}>
+      <Typography variant="h5">{company.name}</Typography>
+      <Typography variant="body1" color="text.secondary">
+        Beigetreten am {moment(company.createdAt).locale("de").format("LL")}
+      </Typography>
+      
+      {company.description ? (
+        <Box marginTop={"5%"}>
+        <Typography variant="h6">Beschreibung</Typography>
+        <Typography variant="body1" color="text.secondary">{company.description}</Typography>
+        </Box>
+        ) : null}
+        <Box marginTop={"5%"}>
+        <Typography variant="h6">Stellenangebote von {company.name}</Typography>
+        <CompanyJobList jobs={companyJobs} company={company.name}/>
+        </Box>
+    </Box>
   )
 }
 

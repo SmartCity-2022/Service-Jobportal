@@ -20,7 +20,8 @@ router.get("/applications", auth.required, async(req, res, next) => {
     let applications = await req.app.get("sequelize").models.Application.findAll({
       where: {
         CitizenId: req.citizen.id
-      }
+      },
+      include: {model: req.app.get('sequelize').models.Job, attributes: ['id', 'name']},
     })
     res.json(applications).status(200)
   }

@@ -17,6 +17,7 @@ import ReactDOM from 'react-dom/client';
 import Submitapplicationpage from './routes/application/Submitapplicationpage';
 import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
+import MyApplications from './routes/application/Myapplicationspage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const themes = [theme.theme, theme.theme2, theme.theme3, theme.theme4]
@@ -32,6 +33,7 @@ root.render(
           <Route path = "/stellen/:id" element = {<Job/>}/>
           <Route path = "/stellensuche" element = {<Jobsearchpage/>}/>
           <Route path = "/meine-firmen" element = {<ProtectedRoute element={<Companypage/>}/>}/>
+          <Route path = "/meine-bewerbungen" element = {<ProtectedRoute element={<MyApplications/>}/>}/>
           <Route path = "/firma/:id" element = {<Companydetailpage/>}/>
           <Route path = "/stellenausschreibung" element = {<ProtectedRoute element={<Jobaddpage/>}/>}/>
           <Route path = "/stellen/:id/bewerbung" element = {<ProtectedRoute element= {<Submitapplicationpage/>}/>}/>

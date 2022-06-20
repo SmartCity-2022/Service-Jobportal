@@ -41,7 +41,7 @@ const ApplicationList = (props) => {
                 <TableRow key={application.id}>
                   <TableCell>{application.id}</TableCell>
                   <TableCell>
-                    Firma
+                    {application.Job.Company ? application.Job.Company.name : null}
                     <br/>
                     {application.Job ? application.Job.name : null}
                   </TableCell>

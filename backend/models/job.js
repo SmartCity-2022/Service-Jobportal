@@ -33,6 +33,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      listed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+      },
     }
   )
   return Job

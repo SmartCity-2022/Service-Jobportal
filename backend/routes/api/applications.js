@@ -65,6 +65,10 @@ router.put("/:applicationId", auth.required, async(req, res, next) => {
     var application = await req.app.get("sequelize").models.Application.findByPk(req.params.applicationId)
     if(!application)
       return res.json({status: 200, message: "application does not exist"}).status(200)
+    
+    req.body.id = req.params.applicationId
+    application = await application.update(req.body)
+    return res.status(200).json(application)
   }
   catch(err) {
     next(err)

@@ -9,7 +9,7 @@ router.post("/", auth.required, async(req, res, next) => {
 
   var file = req.files.file
   if(file.mimetype != "application/pdf")
-    return res.json({status: 400, message: "file is not in pdf format"}).status(400)
+    return res.json({status: 415, message: "file is not in pdf format"}).status(415)
   
   var folderPath = "./applications"
   if(!fs.existsSync(folderPath))
@@ -64,7 +64,7 @@ router.put("/:applicationId", auth.required, async(req, res, next) => {
   try {
     var application = await req.app.get("sequelize").models.Application.findByPk(req.params.applicationId)
     if(!application)
-      return res.json({status: 200, message: "application does not exist"}).status(200)
+      return res.json({status: 404, message: "application does not exist"}).status(404)
     
     req.body.id = req.params.applicationId
     application = await application.update(req.body)

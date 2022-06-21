@@ -91,8 +91,8 @@ const CompanyList = (props) => {
                   <TableCell width={"20%"}>{moment(company.createdAt).locale("de").format("LLLL")}</TableCell>
                   <TableCell width={"30%"} align="right">
                     <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id}>Details</Link>
-                    <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id + "/dashboard"}>Stellenverwaltung</Link>
-                    <IconButton color="error" onClick={() => handleDelete(company)}><DeleteIcon/></IconButton>
+                    <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id + "/dashboard"}>Dashboard</Link>
+                    <IconButton onClick={() => handleDelete(company)}><DeleteIcon/></IconButton>
                   </TableCell>
                 </TableRow>
               ))

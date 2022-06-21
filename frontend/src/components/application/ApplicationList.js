@@ -47,9 +47,9 @@ const ApplicationList = (props) => {
                   </TableCell>
                   <TableCell>{moment(application.createdAt).locale("de").format("LLLL")}</TableCell>
                   <TableCell>
-                    <b>
-                      {application.status === null ? "Bewerbung eingegangen": "LOL"}
-                    </b>
+                    <Typography color={application.status === null ? "none" : application.status ? "success.main" : "error.main"}>
+                      {application.status === null ? "Bewerbung eingegangen": application.status ? "angenommen" : "abgelehnt"}
+                    </Typography>
                   </TableCell>
                   <TableCell align="right">
                   <Link 

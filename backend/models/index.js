@@ -2,7 +2,7 @@ const {Sequelize} = require('sequelize')
 const config = require('../config')
 
 let sequelize
-sequelize = new Sequelize(config.db_url)
+sequelize = new Sequelize(config.db_url, {logging: false})
 
 const Citizen = require('./citizen')(sequelize)
 const Job = require('./job')(sequelize)
@@ -21,4 +21,6 @@ Application.belongsTo(Job)
 Company.hasMany(Job, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
 Job.belongsTo(Company)
   
-module.exports = sequelize
+module.exports = {
+  sequelize: sequelize
+}

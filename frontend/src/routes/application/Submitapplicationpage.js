@@ -1,10 +1,9 @@
-import { Box, height } from "@mui/system"
 import React, { useEffect, useRef, useState } from "react"
-import { Step, StepButton, Stepper, Typography, stepClasses } from "@mui/material"
+import { Step, StepButton, Stepper, Typography } from "@mui/material"
 
+import { Box } from "@mui/system"
 import { Button } from "@mui/material"
 import { Grid } from "@mui/material"
-import { Input } from "@mui/material"
 import { Link } from "@mui/material"
 import axios from "axios"
 import moment from "moment"
@@ -38,7 +37,23 @@ const Submitapplicationpage = () => {
   useEffect(() => { getJob() }, [])
   
   const handleNext = () => {
+    setCompleted(activeStep)
     setActiveStep(step => step+1)
+  }
+
+  const handleSubmit = async() => {
+    if(!fileInput.current.files[0])
+      return
+
+    handleNext()
+
+    var url = process.env.REACT_APP_API_URL + "/jobs/" + id + "/applications/"
+    var formData = new FormData()
+    
+    formData.append("file", fileInput.current.files[0])
+    await axios.post(url, formData, {
+    }, {headers: {'Content-Type': 'multipart/form-data'}, withCredentials: true})
+    .then(res => console.log(res))
   }
   
   const handleBack = () => {
@@ -94,12 +109,9 @@ const Submitapplicationpage = () => {
   const Step2 = () => { return (
     <Box textAlign={"center"}>
       <label htmlFor="contained-button-file">
-        <Input ref={fileInput} accept="application/pdf" id="contained-button-file" multiple type="file" />
+        <Input required 
+        ref={fileInput} accept="application/pdf" id="contained-button-file" multiple type="file" />
       </label>
-      <Button variant="contained" component="span"
-        onClick={() => {console.log(fileInput.current.files[0])}}>
-          Upload
-      </Button>
     </Box>
   )}
   const Step3 = () => { return (
@@ -144,11 +156,12 @@ const Submitapplicationpage = () => {
           
           <Button
             disabled={activeStep === applicationSteps.length-1}
-            onClick={handleNext}
+            type={activeStep >= applicationSteps.length-2 ? "submit" : "button"}
+            onClick={activeStep >= applicationSteps.length-2 ? handleSubmit : handleNext}
             size="large"
             sx={{textTransform: "none", float: "right"}}
           >
-            {activeStep >= applicationSteps.length-1 ? "Bewerbung abschicken": "Weiter"}
+            {activeStep >= applicationSteps.length-2 ? "Bewerbung abschicken": "Weiter"}
           </Button>
         </Box>
 

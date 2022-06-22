@@ -18,7 +18,7 @@ const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen',];
 const links = {
   'alle Stellen': "/stellen",
   'Stellensuche': "/stellensuche",
-  'meine Bewerbungen': "/bewerbungen",
+  'meine Bewerbungen': "/meine-bewerbungen",
 };
 
 const Navbar = () => {

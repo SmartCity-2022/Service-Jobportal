@@ -23,6 +23,23 @@ router.get("/:id/jobs", async(req, res, next) => {
   }
 })
 
+router.get("/:id/jobs/applications", auth.required, async(req, res, next) => {
+  try {
+    let jobs = await req.app.get("sequelize").models.Job.findAll({
+      where: {
+        CompanyId: req.params.id
+      },
+      include: [
+        {model: req.app.get('sequelize').models.Application}
+      ]
+    })
+    return res.status(200).json(jobs)
+  }
+  catch(err) {
+    next(err)
+  }
+})
+
 router.post("/", auth.required, async(req, res, next) => {
   try {
     req.body.CitizenId = req.citizen.id

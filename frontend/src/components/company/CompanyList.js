@@ -1,33 +1,36 @@
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
-  Paper,
+  Link,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ThemeProvider } from "@emotion/react"
 import axios from 'axios';
 import moment from 'moment';
-import theme from "../../theme"
-import { useState } from 'react';
 
-export default function CompanyList(props) {
-  const [companies, changeCompanies] = useState(props.companies)
+const CompanyList = (props) => {
+  const [companies, setCompanies] = useState(props.companies)
   const [open, setOpen] = useState(false)
   const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
+
+  useEffect(() => {
+    setCompanies(props.companies)
+  }, [props.companies])
 
   const handleChange = (event) => {
     if(event.target.name === "name")
@@ -36,117 +39,115 @@ export default function CompanyList(props) {
       setDesc(event.target.value)
   }
 
-  const handleClickOpen = () => {
-    setOpen(true) 
-  }
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-  const handleClose = () => {
-    setOpen(false)
-  }
+  const handleSubmit = async(evt) => {
+    evt.preventDefault()
 
-  const handleSubmit = async() => {
-    const url = process.env.REACT_APP_API_URL + "/companies/"
-    
+    var url = process.env.REACT_APP_API_URL + "/companies/"
     await axios.post(url, {
       "name": name,
       "description": desc
-    }, {withCredentials: true})
-      .then(res => {
-        console.log(res)
-        companies.push(res.data)
-      })
-    setOpen(false)
+    },
+    {withCredentials: true})
+      .then(res => companies.push(res.data))
+      
+    handleClose()
   }
 
-  const handleDelete = async(comp) => {
-    const url = process.env.REACT_APP_API_URL + "/companies/" + comp.id
+  const handleDelete = async(company) => {
+    var url = process.env.REACT_APP_API_URL + "/companies/" + company.id
     await axios.delete(url, {withCredentials: true})
-      .then(() => {
-        let index = companies.indexOf(comp)
-        console.log(index)
-        
-        changeCompanies(companies.filter(item => item !== comp))
-      })
+      .then(setCompanies(companies.filter(item => item !== company)))
   }
-
+  
   return (
-    <ThemeProvider theme={theme}>
-      <TableContainer elevation={0} sx={{padding: 5}} component={Paper}>
-        <Table size="large">
+    <>
+      <Typography paddingLeft={5} paddingTop={5} variant="h5">Firmenverwaltung</Typography>
+      <Typography paddingLeft={5} variant="body1" color="text.secondary">
+        Beschreibung
+      </Typography>
+
+      <TableContainer sx={{padding: 5}}>
+        <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Firmen-Nr.</TableCell>
-              <TableCell>Firmenname</TableCell>
-              <TableCell>Erstellungsdatum</TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
+            <TableCell width={"20%"}>Firmen-Nr.</TableCell>
+            <TableCell width={"30%"}>Firmenbezeichnung</TableCell>
+            <TableCell width={"20%"}>Hinzugefügt am</TableCell>
+            <TableCell width={"30%"}/>
           </TableHead>
+
           <TableBody>
-            {Array.isArray(companies) && companies.map(comp => 
-            {return (
-              <TableRow key={comp.id} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                <TableCell> {comp.id} </TableCell>
-                <TableCell> {comp.name} </TableCell>
-                <TableCell> {moment(comp.createdAt).locale("de").format("LLL")} </TableCell>
-                
-
-                <TableCell align="right">
-                  <Button variant="contained" href={"/stellenausschreibung"}>Stelle ausschreiben</Button>
-                </TableCell>
-                <TableCell align="right">
-                  <Button variant="contained" href={"/firma/" + comp.id}>Stellen anzeigen</Button>
-                </TableCell>
-                
-                <TableCell align="right">
-                  <IconButton onClick={() => handleDelete(comp)}><DeleteIcon/></IconButton>
-                </TableCell>
+            {Array.isArray(companies) && companies.length === 0 ?
+              <TableRow>
+                <TableCell colSpan={7}>Es sind keine Firmen registriert.</TableCell>
               </TableRow>
-            )})}
-
-            <TableRow key={9000} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-              <TableCell>
-                <Button variant="contained" size="small" onClick={handleClickOpen} startIcon={<AddCircleIcon/>}>hinzufügen</Button>
+              :
+              Array.isArray(companies) && companies.map(company => (
+                <TableRow key={company.id}>
+                  <TableCell width={"20%"}>{company.id}</TableCell>
+                  <TableCell width={"30%"} >{company.name}</TableCell>
+                  <TableCell width={"20%"}>{moment(company.createdAt).locale("de").format("LLLL")}</TableCell>
+                  <TableCell width={"30%"} align="right">
+                    <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id}>Details</Link>
+                    <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id + "/dashboard"}>Dashboard</Link>
+                    <IconButton onClick={() => handleDelete(company)}><DeleteIcon/></IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            }
+            <TableRow>
+              <TableCell colSpan={7}>
+                  <Button
+                    variant="text"
+                    sx={{textTransform: "none"}}
+                    startIcon={<AddCircleIcon/>}
+                    onClick={handleOpen}
+                  >
+                    Firma hinzufügen
+                  </Button>
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
-                  
-        <Dialog open={open} onClose={handleClose} fullWidth="md" sx={{padding:5}}>
-          <DialogTitle>Firma hinzufügen</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              required
-              variant="standard"
-              margin="dense"
-              name="name"
-              onChange={handleChange}
-              label="Firmenname"
-              fullWidth
-              helperText="Firmenbezeichnung inklusive Rechtsform"
-            />
-          
-            <TextField
-              variant="standard"
-              margin="dense"
-              name="description"
-              onChange={handleChange}
-              label="Firmenbeschreibung"
-              fullWidth
-              multiline
-              rows={4}
-              helperText="Informationen über das Unternehmen"
-            />
-            
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleSubmit}>Erstellen</Button>
-          </DialogActions>
-        </Dialog>
-
       </TableContainer>
-    </ThemeProvider>
+
+      <Dialog open={open} onClose={handleClose} fullWidth="md" sx={{padding:5}}>
+            <DialogTitle>Firma hinzufügen</DialogTitle>
+            <form onSubmit={handleSubmit}>
+              <DialogContent>
+                  <TextField
+                    autoFocus
+                    required
+                    variant="standard"
+                    margin="dense"
+                    name="name"
+                    onChange={handleChange}
+                    label="Firmenname"
+                    fullWidth
+                    helperText="Firmenbezeichnung inklusive Rechtsform"
+                  />
+                
+                  <TextField
+                    variant="standard"
+                    margin="dense"
+                    name="description"
+                    onChange={handleChange}
+                    label="Firmenbeschreibung"
+                    fullWidth
+                    multiline
+                    rows={4}
+                    helperText="Informationen über das Unternehmen"
+                  />
+              </DialogContent>
+              <DialogActions>
+                <Button variant='text' type="submit">Erstellen</Button>
+              </DialogActions>
+            </form>
+          </Dialog>
+    </>
   )
 }
+
+export default CompanyList

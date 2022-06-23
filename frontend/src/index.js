@@ -22,11 +22,10 @@ import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const themes = [theme.theme, theme.theme2, theme.theme3, theme.theme4]
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={themes[Math.floor(Math.random() * 4)]}>
+    <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Navbar/>
         <Routes>

@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom"
 
 const Submitapplicationpage = () => {
 
-  const { id } = useParams();
+  const { id } = useParams()
   
   const applicationSteps = [
     "Stellenangebot überprüfen",
@@ -22,7 +22,7 @@ const Submitapplicationpage = () => {
 
   const Input = styled('input')({
     display: 'default',
-  });
+  })
 
   const fileInput = useRef()
   
@@ -31,7 +31,7 @@ const Submitapplicationpage = () => {
   const [completed, setCompleted] = useState({})
 
   const getJob = async () => {
-    await axios.get(process.env.REACT_APP_API_URL + "/jobs/" + id).then(response => setJob(response.data));
+    await axios.get(process.env.REACT_APP_API_URL + "/jobs/" + id).then(response => setJob(response.data))
   }
   // eslint-disable-next-line
   useEffect(() => { getJob() }, [])
@@ -53,7 +53,6 @@ const Submitapplicationpage = () => {
     formData.append("file", fileInput.current.files[0])
     await axios.post(url, formData, {
     }, {headers: {'Content-Type': 'multipart/form-data'}, withCredentials: true})
-    .then(res => console.log(res))
   }
   
   const handleBack = () => {
@@ -95,11 +94,9 @@ const Submitapplicationpage = () => {
         <Typography marginBottom={2} variant="h6">Firmendaten</Typography>
         <Grid container>
           <Grid item xs>Firmenbezeichnung</Grid>
-          <Grid item xs>{job.name}</Grid>
+          <Grid item xs>{job.Company ? job.Company.name : null}</Grid>
         </Grid>
         <Grid container>
-          <Grid item xs>Typ</Grid>
-          <Grid item xs>{job.type}</Grid>
         </Grid>
       </Box>
       </Box>

@@ -14,13 +14,13 @@ import {
   TableRow,
   TextField,
   Typography
-} from '@mui/material';
-import { useEffect, useState } from 'react';
+} from '@mui/material'
+import { useEffect, useState } from 'react'
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import axios from 'axios';
-import moment from 'moment';
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import DeleteIcon from '@mui/icons-material/Delete'
+import axios from 'axios'
+import moment from 'moment'
 
 const CompanyList = (props) => {
   const [companies, setCompanies] = useState(props.companies)

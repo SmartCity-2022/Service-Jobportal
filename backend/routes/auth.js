@@ -20,7 +20,7 @@ module.exports.required = async(req, res, next) => {
     return res.status(401).json({error: "Missing access or refresh token"})
     
   try {
-    const payload = verify(accessToken, process.env.SECRET)
+    let payload = verify(accessToken, process.env.SECRET)
     let citizen = await req.app.get("sequelize").models.Citizen.findOne({where: {email: payload.email}})
     if(!citizen) {
       citizen = await req.app.get("sequelize").models.Citizen.create({email: payload.email})
@@ -30,7 +30,25 @@ module.exports.required = async(req, res, next) => {
   }
   catch(error) {
     if(error instanceof TokenExpiredError) {
-      return res.status(500).json(error)
+      var refreshUrl = process.env.MAINHUB_URL + "/api/token"
+      var response = await axios.post(refreshUrl, {token: refreshToken})
+      
+      try {
+        let payload = verify(response.data.accessToken, process.env.SECRET)
+        res.cookie("accessToken", response.data.accessToken, {
+          domain: ".smartcity.w-mi.de"
+        })
+
+        let citizen = await req.app.get("sequelize").models.Citizen.findOne({where: {email: payload.email}})
+        if(!citizen) {
+          citizen = await req.app.get("sequelize").models.Citizen.create({email: payload.email})
+        }
+        req.citizen = citizen
+        return next()
+      }
+      catch(err) {
+        res.send(err).status(401)
+      }
     }
     else if(error instanceof ValidationError) {
       return res.status(500).json(error)

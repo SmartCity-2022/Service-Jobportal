@@ -1,9 +1,9 @@
 import { Button, Grid, MenuItem, TextField } from "@mui/material"
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 import JobList from "../../components/job/JobList"
 import { ThemeProvider } from "@emotion/react"
-import axios from "axios";
+import axios from "axios"
 import theme from "../../theme"
 
 const Jobsearchpage = () => {
@@ -54,7 +54,7 @@ const Jobsearchpage = () => {
     setState({
       ...state,
       [name]: value
-    });
+    })
   }
   
   return (
@@ -139,9 +139,9 @@ const Jobsearchpage = () => {
             </TextField>
         </Grid>
       </Grid>
-      <JobList data={state.results}></JobList>
+      {state.results.length ? <JobList data={state.results}></JobList> : null}
     </ThemeProvider>
-  );
+  )
 }
 
 export default Jobsearchpage

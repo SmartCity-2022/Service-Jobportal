@@ -14,16 +14,21 @@ import {
   TableRow,
   TextField
 } from "@mui/material"
+import { useEffect, useState } from "react"
 
 import axios from "axios"
 import moment from "moment"
-import { useState } from "react"
 
 const CompanyApplicationList = (props) => {
+  const [applications, setApplications] = useState(props.applications)
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState(-1)
   const [description, setDescription] = useState("")
   const [dialogApp, setDialogApp] = useState(0)
+  
+  useEffect(() => {
+    setApplications(props.applications)
+  }, [props.applications])
   
   const handleChange = (event) => {
     if(event.target.name === "status")
@@ -34,10 +39,14 @@ const CompanyApplicationList = (props) => {
   
   const handleOpen = (application) => {
     setOpen(true)
+
     setDialogApp(application)
   }
   const handleClose = () => {
     setOpen(false)
+
+    setStatus(-1)
+    setDescription("")
     setDialogApp(0)
   }
 
@@ -45,12 +54,14 @@ const CompanyApplicationList = (props) => {
     evt.preventDefault()
     
     var url = process.env.REACT_APP_API_URL + "/jobs/" + props.jobId + "/applications/" + dialogApp.id
-    await axios.put(url, {"status": status, "description": description},  {withCredentials: true})
-      .then(res => console.log(res))
-
-    console.log(dialogApp)
-    console.log(status)
-    console.log(description)
+    await axios.put(url, {"status": status === -1 ? null : status, "description": description},  {withCredentials: true})
+      .then(res => {
+        var copy = [...applications]
+        var index = copy.indexOf(dialogApp)
+        
+        copy[index] = res.data
+        setApplications(copy)
+      })
     handleClose()
   }
 
@@ -69,12 +80,12 @@ const CompanyApplicationList = (props) => {
           </TableHead>
 
           <TableBody>
-          {Array.isArray(props.applications) && props.applications.length === 0 ? 
+          {Array.isArray(applications) && applications.length === 0 ? 
               <TableRow>
                 <TableCell colSpan={5}>Keine Bewerbungen vorhanden.</TableCell>
               </TableRow>
               :
-              props.applications.map(application => (
+              applications.map(application => (
                 <TableRow key={application.id}>
                   <TableCell>{application.id}</TableCell>
                   <TableCell>{moment(application.createdAt).locale("de").format("LLLL")}</TableCell>
@@ -118,11 +129,12 @@ const CompanyApplicationList = (props) => {
             </TextField>
             <TextField
               multiline
+              rows={4}
               margin="dense"
               name="description"
               onChange={handleChange}
               fullWidth
-              label="Beschreibung"
+              label="Details"
             />
           </DialogContent>
           <DialogActions>

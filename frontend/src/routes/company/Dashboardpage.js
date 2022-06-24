@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import { useEffect, useState } from "react"
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
 import Errorpage from "../Errorpage"
 import axios from "axios"
 import moment from "moment"
@@ -27,14 +27,18 @@ const Dashboardpage = (props) => {
     await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id).then(res => setCompany(res.data)) 
   }
   const getJobs = async() => {
-    await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id +"/jobs/applications").then(res => {setJobs(res.data);}) 
+    await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id +"/jobs/applications").then(res => {setJobs(res.data)}) 
   }
-
   // eslint-disable-next-line
   useEffect(() => {{getCompany(), getJobs()}}, [])
 
+  const handleDelete = async(job) => {
+    var url = process.env.REACT_APP_API_URL + "/jobs/" + job.id
+    await axios.delete(url, {withCredentials: true}).then(res => console.log(res))
+  }
+
   if(!company) return <Errorpage status={404}/>
-  if(company.CitizenId !== props.auth) return <Errorpage status={401}/>
+  if(company.CitizenId !== props.auth.id) return <Errorpage status={401}/>
 
   return (
     <>
@@ -59,7 +63,7 @@ const Dashboardpage = (props) => {
           <TableBody>
               {Array.isArray(jobs) && jobs.length === 0 ? 
               <TableRow>
-                <TableCell colSpan={5}>Keine Stellen vorhanden.</TableCell>
+                <TableCell colSpan={10}>Keine Stellen vorhanden.</TableCell>
               </TableRow>
               :
               jobs.map(job => (
@@ -76,8 +80,8 @@ const Dashboardpage = (props) => {
                   </TableCell>
                   <TableCell>{job.listed ? "gelistet" : "nicht gelistet"}</TableCell>
                   <TableCell align="right">
-                    <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id}>Stelle bearbeiten</Link>
-                    <IconButton><DeleteIcon/></IconButton>
+                    <Link type="disable" underline="none" marginRight={"10%"} href={"/stellen/" + job.id}>Stellendetails</Link>
+                    <IconButton onClick={() => handleDelete(job)}><DeleteIcon/></IconButton>
                   </TableCell>
                 </TableRow>
             ))}

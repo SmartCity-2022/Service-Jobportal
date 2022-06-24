@@ -52,7 +52,7 @@ const ApplicationList = (props) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                  <Link 
+                  <Link
                     underline="none"
                     href={process.env.REACT_APP_API_URL + "/jobs/" + application.jobId + "/applications/" + application.id + "/document"}
                   >

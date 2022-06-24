@@ -8,7 +8,7 @@ const ProtectedRoute = (props) => {
 
   const isAuth = async() => {
     var url = process.env.REACT_APP_API_URL + "/auth"
-    await axios.get(url, {withCredentials: true}).then(res => setAuth(res.data.id))
+    await axios.get(url, {withCredentials: true}).then(res => setAuth(res.data))
   }
     useEffect(() => { isAuth() }, [])
 

@@ -14,11 +14,13 @@ import theme from '../theme'
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen',];
+const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen', "Stellenausschreibung", "Firmenverwaltung"];
 const links = {
   'alle Stellen': "/stellen",
   'Stellensuche': "/stellensuche",
   'meine Bewerbungen': "/meine-bewerbungen",
+  'Stellenausschreibung': "/stellenausschreibung",
+  "Firmenverwaltung": "/meine-firmen"
 };
 
 const Navbar = () => {
@@ -39,36 +41,6 @@ const Navbar = () => {
     if(auth) {
       return(
         <>
-        <Box sx={{display: { xs: 'none', md: 'flex' }}}>
-          <Button key={"Stellenausschreibung"} sx={{
-            mr: 0,
-            my: 1,
-            color: 'lightgray', 
-            display: 'block',
-            textTransform: 'none',
-            fontWeight: 'normal',
-            ":hover": {
-              color: 'white',
-            },
-          }} href={"/stellenausschreibung"}>
-          Stelle ausschreiben
-          </Button>
-        
-          <Button key={"Firmenverwaltung"} sx={{
-            mr: 0,
-            my: 1,
-            color: 'lightgray', 
-            display: 'block',
-            textTransform: 'none',
-            fontWeight: 'normal',
-            ":hover": {
-              color: 'white',
-            },
-          }} href={"/meine-firmen"}>
-        Firmenverwaltung
-        </Button>
-        </Box>
-        
         <Box sx={{display: { xs: 'none', md: 'flex' }, ml: "1%"}}>
         <Tooltip title={"Eingeloggt als " + auth} arrow>
           <AccountCircleIcon sx={{color: "lightgray"}}/>
@@ -88,6 +60,8 @@ const Navbar = () => {
             noWrap
             component="a"
             href='/'
+            fontSize={25}
+            fontWeight={600}
             sx={{
               mr: 2,
               display: {md: 'flex' },
@@ -116,7 +90,6 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-        
           <AuthTooltip/>
         </Toolbar>
       </Container>

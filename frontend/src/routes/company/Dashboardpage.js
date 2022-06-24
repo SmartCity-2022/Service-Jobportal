@@ -34,7 +34,7 @@ const Dashboardpage = (props) => {
   useEffect(() => {{getCompany(), getJobs()}}, [])
 
   if(!company) return <Errorpage status={404}/>
-  if(company.CitizenId !== props.auth) return <Errorpage status={401}/>
+  if(company.CitizenId !== props.auth.id) return <Errorpage status={401}/>
 
   return (
     <>
@@ -59,7 +59,7 @@ const Dashboardpage = (props) => {
           <TableBody>
               {Array.isArray(jobs) && jobs.length === 0 ? 
               <TableRow>
-                <TableCell colSpan={5}>Keine Stellen vorhanden.</TableCell>
+                <TableCell colSpan={10}>Keine Stellen vorhanden.</TableCell>
               </TableRow>
               :
               jobs.map(job => (

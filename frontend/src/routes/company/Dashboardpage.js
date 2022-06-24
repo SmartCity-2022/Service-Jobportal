@@ -32,6 +32,11 @@ const Dashboardpage = (props) => {
   // eslint-disable-next-line
   useEffect(() => {{getCompany(), getJobs()}}, [])
 
+  const handleDelete = async(job) => {
+    var url = process.env.REACT_APP_API_URL + "/jobs/" + job.id
+    await axios.delete(url, {withCredentials: true}).then(res => console.log(res))
+  }
+
   if(!company) return <Errorpage status={404}/>
   if(company.CitizenId !== props.auth.id) return <Errorpage status={401}/>
 
@@ -76,7 +81,7 @@ const Dashboardpage = (props) => {
                   <TableCell>{job.listed ? "gelistet" : "nicht gelistet"}</TableCell>
                   <TableCell align="right">
                     <Link type="disable" underline="none" marginRight={"10%"} href={"/stellen/" + job.id}>Stellendetails</Link>
-                    <IconButton><DeleteIcon/></IconButton>
+                    <IconButton onClick={() => handleDelete(job)}><DeleteIcon/></IconButton>
                   </TableCell>
                 </TableRow>
             ))}

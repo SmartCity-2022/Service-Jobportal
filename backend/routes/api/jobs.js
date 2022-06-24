@@ -93,10 +93,10 @@ router.put('/', auth.required, async(req, res, next) => {
     })  
 })
 
-router.delete('/', auth.required, async(req, res, next) => {
+router.delete('/:id', auth.required, async(req, res, next) => {
   try {
-    await req.app.get('sequelize').models.Citizen.destroy({where: {id: req.body.id}})
-    res.sendStatus(200)
+    let job = await req.app.get('sequelize').models.Job.destroy({where: {id: req.params.id}})
+    res.json(job).status(200)
   }
   catch(error) {
     next(error)

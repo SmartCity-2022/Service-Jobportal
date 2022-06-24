@@ -1,29 +1,64 @@
 ![GitHub tag (latest SemVer)](https://shields.herrvergesslich.de/github/v/tag/smartcity-2022/service-jobportal?label=Version)
-# Service-Jobportal
-Microservice Jobportal
+# Microservice Jobportal
+
+## Übersicht
+Der Microservice Jobportal befasst sich mit der Ausschreibung und Suche von Praktikumsplätzen, Ausbildungsstellen, Mini- Teilzeit und Vollzeitjobs für die Bürger von SmartCity.
+
+Registrierte Bürger im Bürgerbüro können entweder eine Firma registrieren um Stellen auszuschreiben oder nach bereits ausgeschriebenen Stellen suchen und sich dort bewerben.
 
 ## Installation
 
+### Installation via npm
+
+In den Ordnern `backend` und `frontend` muss jeweils der Befehl `npm install` ausgeführt werden.
+
+Danach kann das jeweilige Programm mit `npm start` gestartet werden.
+
 ### Umgebungsvariablen
 
-In den Ordnern `backend` und `frontend` müssen jeweils eine `.env` Datei angelegt werden, welche folgende Parameter enthalten müssen:
+In den Ordnern `backend` und `frontend` muss jeweils eine `.env` Datei erstellt werden in denen folgende Parameter gesetzt sind:
 
-**Backend**
-
-* `DATABASE_URL`: MySQL Adresse im Format  'mysql://`username`:`password`@`adress`:`port`/`database` <br>
-Beispiel: `mysql://root:root@localhost:3306/jobportal`
-
-* `API_PATH`: API Basis Mapping <br>
-Beispiel: `/api`
-
-* `API_PORT`: Port auf der die API läuft <br>
-default: `3001`
-
-* `RABBITMQ_URL`: Adresse des RabbitMQ Servers <br>
-Beispiel: `amqp://127.0.0.1:5672`
+### Backend
+#### `DATABASE_URL`
+Adresse der Datenbank `jobportal`, welche sich im Format "mysql://'username':'password'@'adress':'port'/'database'"
+befinden muss.
 
 
-**Frontend**
+#### `API_PATH`
+Basis URL der API.<br>
+Defaultwert: `/api`
 
-* `REACT_APP_API_URL`: Adresse des Backends, muss Adresse + API_PATH entsprechen <br>
-Beispiel: `http://localhost:3001/api`
+
+#### `API_PORT`
+Port auf welcher die API läuft.<br>
+Defaultwert: `3000`
+
+
+#### `RABBITMQ_URL`
+Adresse des RabbitMQ-Servers
+
+
+#### `RABBITMQ_EXCHANGE`
+Standardexchange welcher auf dem RabbitMQ Server verwendet wird. <br>
+Defaultwert: `EXCHANGE`
+
+
+#### `MAINHUB_URL`
+Adresse, auf welcher sich das MainHub befindet.
+
+
+### Frontend
+#### `REACT_APP_API_URL`
+Die Adresse des Backends
+
+## Verwendete Technologien
+
+Frontend:
+* React
+* Material UI
+
+Backend:
+* Express
+
+Datenbank:
+* MySQL

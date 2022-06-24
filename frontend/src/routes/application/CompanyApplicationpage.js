@@ -5,11 +5,11 @@ import {
   Typography
 } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useParams, useSearchParams } from "react-router-dom"
 
 import CompanyApplicationList from "../../components/application/CompanyApplicationList"
 import Errorpage from "../Errorpage"
 import axios from "axios"
+import { useSearchParams } from "react-router-dom"
 
 const Applicationmanagement = () => {
   const [queryParams] = useSearchParams()

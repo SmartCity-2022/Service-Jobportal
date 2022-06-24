@@ -53,7 +53,6 @@ const Submitapplicationpage = () => {
     formData.append("file", fileInput.current.files[0])
     await axios.post(url, formData, {
     }, {headers: {'Content-Type': 'multipart/form-data'}, withCredentials: true})
-    .then(res => console.log(res))
   }
   
   const handleBack = () => {
@@ -95,11 +94,9 @@ const Submitapplicationpage = () => {
         <Typography marginBottom={2} variant="h6">Firmendaten</Typography>
         <Grid container>
           <Grid item xs>Firmenbezeichnung</Grid>
-          <Grid item xs>{job.name}</Grid>
+          <Grid item xs>{job.Company ? job.Company.name : null}</Grid>
         </Grid>
         <Grid container>
-          <Grid item xs>Typ</Grid>
-          <Grid item xs>{job.type}</Grid>
         </Grid>
       </Box>
       </Box>

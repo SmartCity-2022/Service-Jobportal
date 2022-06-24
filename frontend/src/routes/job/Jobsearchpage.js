@@ -139,7 +139,7 @@ const Jobsearchpage = () => {
             </TextField>
         </Grid>
       </Grid>
-      <JobList data={state.results}></JobList>
+      {state.results.length ? <JobList data={state.results}></JobList> : null}
     </ThemeProvider>
   );
 }

@@ -55,17 +55,14 @@ const Navbar = () => {
     <AppBar elevation={0} position="static" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
+          <Typography        
             component="a"
             href='/'
             fontSize={25}
-            fontWeight={600}
+            fontWeight={550}
             sx={{
               mr: 2,
               display: {md: 'flex' },
-              fontWeight: 'normal',
               color: 'inherit',
               textDecoration: 'none',
             }}

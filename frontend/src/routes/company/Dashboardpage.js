@@ -29,7 +29,6 @@ const Dashboardpage = (props) => {
   const getJobs = async() => {
     await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id +"/jobs/applications").then(res => {setJobs(res.data);}) 
   }
-
   // eslint-disable-next-line
   useEffect(() => {{getCompany(), getJobs()}}, [])
 
@@ -76,7 +75,7 @@ const Dashboardpage = (props) => {
                   </TableCell>
                   <TableCell>{job.listed ? "gelistet" : "nicht gelistet"}</TableCell>
                   <TableCell align="right">
-                    <Link underline="none" marginRight={"10%"} href={"/firma/" + company.id}>Stelle bearbeiten</Link>
+                    <Link type="disable" underline="none" marginRight={"10%"} href={"/stellen/" + job.id}>Stellendetails</Link>
                     <IconButton><DeleteIcon/></IconButton>
                   </TableCell>
                 </TableRow>

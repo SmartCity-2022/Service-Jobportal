@@ -16,7 +16,7 @@ const Jobpage = () => {
       setTotalJobs(response.data);
     });
   }
-
+  
   return (
     <>
       <JobList data={totalJobs} />

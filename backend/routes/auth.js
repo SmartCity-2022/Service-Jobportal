@@ -30,10 +30,9 @@ module.exports.required = async(req, res, next) => {
   }
   catch(error) {
     if(error instanceof TokenExpiredError) {
-      var refreshUrl = process.env.MAINHUB_URL + "/api/token"
-      var response = await axios.post(refreshUrl, {token: refreshToken})
-      
       try {
+        var refreshUrl = process.env.MAINHUB_URL + "/api/token"
+        var response = await axios.post(refreshUrl, {token: refreshToken})
         let payload = verify(response.data.accessToken, process.env.SECRET)
         res.cookie("accessToken", response.data.accessToken, {
           domain: ".smartcity.w-mi.de"

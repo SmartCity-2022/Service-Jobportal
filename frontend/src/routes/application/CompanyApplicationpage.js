@@ -14,8 +14,6 @@ import axios from "axios"
 const Applicationmanagement = () => {
   const [queryParams] = useSearchParams()
   const sid = queryParams.get("sid")
-  
-  const { id } = useParams()
 
   const [checked, setChecked] = useState(0)
   const handleCheckbox = (event) => {
@@ -24,7 +22,7 @@ const Applicationmanagement = () => {
 
   const [applications, setApplications] = useState([])
   const getApplications = async() => {
-    var url = process.env.REACT_APP_API_URL + "/jobs/" + id + "/applications"
+    var url = process.env.REACT_APP_API_URL + "/jobs/" + sid + "/applications"
     await axios.get(url, {withCredentials: true})
       .then(res => {
         if(checked) {
@@ -51,7 +49,7 @@ const Applicationmanagement = () => {
         checked={checked}
         onChange={handleCheckbox}
       />
-      <CompanyApplicationList applications={applications} jobId ={id}/>
+      <CompanyApplicationList applications={applications} jobId ={sid}/>
     </Box>
   )
 }

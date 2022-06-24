@@ -6,7 +6,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { useState } from "react"
 
-const JobAddpage = () => {
+const JobAddpage = (props) => {
   const [state, setState] = useState({
     types: [],
     companies: [],
@@ -45,7 +45,7 @@ const JobAddpage = () => {
     setState({
       ...state,
       [name]: value
-    });
+    })
   }
 
   const submit = async(evt) => {
@@ -81,8 +81,6 @@ const JobAddpage = () => {
           <br/>
           <Link underline="none" href="/">Zurück zur Hauptseite</Link>
         </Typography>
-        
-      
       </>
       : 
       (<>

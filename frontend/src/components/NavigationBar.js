@@ -1,27 +1,27 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import { ThemeProvider } from '@emotion/react';
-import Toolbar from '@mui/material/Toolbar';
-import { Tooltip } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import axios from 'axios';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import { ThemeProvider } from '@emotion/react'
+import Toolbar from '@mui/material/Toolbar'
+import { Tooltip } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import axios from 'axios'
 import theme from '../theme'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen', "Stellenausschreibung", "Firmenverwaltung"];
+const pages = ['alle Stellen', 'Stellensuche', 'meine Bewerbungen', "Stellenausschreibung", "Firmenverwaltung"]
 const links = {
   'alle Stellen': "/stellen",
   'Stellensuche': "/stellensuche",
   'meine Bewerbungen': "/meine-bewerbungen",
   'Stellenausschreibung': "/stellenausschreibung",
   "Firmenverwaltung": "/meine-firmen"
-};
+}
 
 const Navbar = () => {
   const [auth, setAuth] = useState(false)
@@ -92,7 +92,7 @@ const Navbar = () => {
       </Container>
     </AppBar>
     </ThemeProvider>
-  );
+  )
 }
 
 export default Navbar

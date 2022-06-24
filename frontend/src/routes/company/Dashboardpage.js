@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import { useEffect, useState } from "react"
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
 import Errorpage from "../Errorpage"
 import axios from "axios"
 import moment from "moment"
@@ -27,7 +27,7 @@ const Dashboardpage = (props) => {
     await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id).then(res => setCompany(res.data)) 
   }
   const getJobs = async() => {
-    await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id +"/jobs/applications").then(res => {setJobs(res.data);}) 
+    await axios.get(process.env.REACT_APP_API_URL + "/companies/" + id +"/jobs/applications").then(res => {setJobs(res.data)}) 
   }
   // eslint-disable-next-line
   useEffect(() => {{getCompany(), getJobs()}}, [])

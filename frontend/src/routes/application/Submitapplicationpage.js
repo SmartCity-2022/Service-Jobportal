@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom"
 
 const Submitapplicationpage = () => {
 
-  const { id } = useParams();
+  const { id } = useParams()
   
   const applicationSteps = [
     "Stellenangebot überprüfen",
@@ -22,7 +22,7 @@ const Submitapplicationpage = () => {
 
   const Input = styled('input')({
     display: 'default',
-  });
+  })
 
   const fileInput = useRef()
   
@@ -31,7 +31,7 @@ const Submitapplicationpage = () => {
   const [completed, setCompleted] = useState({})
 
   const getJob = async () => {
-    await axios.get(process.env.REACT_APP_API_URL + "/jobs/" + id).then(response => setJob(response.data));
+    await axios.get(process.env.REACT_APP_API_URL + "/jobs/" + id).then(response => setJob(response.data))
   }
   // eslint-disable-next-line
   useEffect(() => { getJob() }, [])

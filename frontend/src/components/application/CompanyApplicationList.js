@@ -62,7 +62,6 @@ const CompanyApplicationList = (props) => {
         copy[index] = res.data
         setApplications(copy)
       })
-
     handleClose()
   }
 
